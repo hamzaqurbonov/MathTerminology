@@ -19,11 +19,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();;
     DatabaseReference ref = myRef.child("data");
     public  static ArrayList<String> nextArrayList = new ArrayList<>();
+    public Map map = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,25 +43,28 @@ public class MainActivity extends AppCompatActivity {
 //        myRef.setValue("Hello, World!");
 
 
-        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
+//        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
 
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 String value =  snapshot.getValue(String.class);
+                String value2 = (String) snapshot.getKey();
                 nextArrayList.add(value);
-                myArrayAdaptrer.notifyDataSetChanged();
 
-                Log.d("demo21", String.valueOf(nextArrayList));
+                map.put(value2,value);
+//                myArrayAdaptrer.notifyDataSetChanged();
+
+                Log.d("demo21", "nextArrayList " + value2 + " + " + value + " " + map);
 
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                myArrayAdaptrer.notifyDataSetChanged();
+//                myArrayAdaptrer.notifyDataSetChanged();
 
-                Log.d("demo21", String.valueOf(myArrayAdaptrer));
+//                Log.d("demo21", "myArrayAdaptrer " +  String.valueOf(myArrayAdaptrer));
             }
 
             @Override
