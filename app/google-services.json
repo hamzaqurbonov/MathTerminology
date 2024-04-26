@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "350904313275",
+    "firebase_url": "https://mathterminology-6a803-default-rtdb.firebaseio.com",
+    "project_id": "mathterminology-6a803",
+    "storage_bucket": "mathterminology-6a803.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350904313275:android:ed665884d5cdbbf16e909e",
+        "android_client_info": {
+          "package_name": "com.example.mathterminology"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMiLZm0dJQSz1-AmiaS6ah98j1-UIvf34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
