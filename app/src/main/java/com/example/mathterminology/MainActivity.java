@@ -21,7 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    DatabaseReference myRef;
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();;
+    DatabaseReference ref = myRef.child("data");
     public  static ArrayList<String> nextArrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
 
-        myRef = FirebaseDatabase.getInstance().getReference();
-        myRef.addChildEventListener(new ChildEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -50,11 +50,14 @@ public class MainActivity extends AppCompatActivity {
                 myArrayAdaptrer.notifyDataSetChanged();
 
                 Log.d("demo21", String.valueOf(nextArrayList));
+
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 myArrayAdaptrer.notifyDataSetChanged();
+
+                Log.d("demo21", String.valueOf(myArrayAdaptrer));
             }
 
             @Override
