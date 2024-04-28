@@ -2,7 +2,6 @@ package com.example.mathterminology;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -20,14 +19,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();;
     DatabaseReference ref = myRef.child("data");
     public  static ArrayList<String> nextArrayList = new ArrayList<>();
-    public Map map = new HashMap<>();
+    public Map<String, String> map = new HashMap<>();
+//    MapModel mapModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,15 +47,29 @@ public class MainActivity extends AppCompatActivity {
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                MapModel city = snapshot.toObject(MapModel.class);
 
                 String value =  snapshot.getValue(String.class);
                 String value2 = (String) snapshot.getKey();
                 nextArrayList.add(value);
 
                 map.put(value2,value);
+
+//                map.put(new MapModel(value2));
 //                myArrayAdaptrer.notifyDataSetChanged();
 
+                for (Map.Entry<String, String> me :
+                        map.entrySet()) {
+
+                    // Printing keys
+                    System.out.print(me.getKey() + ":");
+                    System.out.println(me.getValue());
+
+                    Log.d("demo21", "Map " + me);
+                }
+
                 Log.d("demo21", "nextArrayList " + value2 + " + " + value + " " + map);
+//                Log.d("demo21", "mapModel " + mapModel.getName() );
 
             }
 
