@@ -2,6 +2,7 @@ package com.example.mathterminology;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +26,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();;
-    DatabaseReference ref = myRef.child("data");
+    RecyclerView recyclerView;
+//    DatabaseReference ref = myRef.child("data");
     public  static ArrayList<String> nextArrayList = new ArrayList<>();
     public Map<String, String> map = new HashMap<>();
 //    MapModel mapModel;
@@ -33,43 +37,38 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        initViews();
 
 
-//        // Write a message to the database
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
-//
-//        myRef.setValue("Hello, World!");
 
 
-//        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
+        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
 
-        ref.addChildEventListener(new ChildEventListener() {
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                MapModel city = snapshot.toObject(MapModel.class);
+
 
                 String value =  snapshot.getValue(String.class);
                 String value2 = (String) snapshot.getKey();
+
                 nextArrayList.add(value);
 
-                map.put(value2,value);
+                Log.d("demo21", "nextArrayList " + nextArrayList);
 
-//                map.put(new MapModel(value2));
-//                myArrayAdaptrer.notifyDataSetChanged();
-
-                for (Map.Entry<String, String> me :
-                        map.entrySet()) {
-
-                    // Printing keys
-                    System.out.print(me.getKey() + ":");
-                    System.out.println(me.getValue());
-
-                    Log.d("demo21", "Map " + me);
-                }
-
-                Log.d("demo21", "nextArrayList " + value2 + " + " + value + " " + map);
-//                Log.d("demo21", "mapModel " + mapModel.getName() );
+//                map.put(value2,value);
+// --------------------  Mapni ishakillantirib beradi ----------
+//                for (Map.Entry<String, String> me :
+//                        map.entrySet()) {
+//
+//                    // Printing keys
+//                    System.out.print(me.getKey() + ":");
+//                    System.out.println(me.getValue());
+//
+//                    Log.d("demo21", "Map " + me);
+//                }
+//
+//                Log.d("demo21", "nextArrayList " + value2 + " + " + value + " " + map);
 
             }
 
@@ -103,4 +102,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+
+    private void initViews() {
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+    }
+
+    private void refreshAdapter (List<Member>members) {
+        MainAdapter adapter = new MainAdapter(context, members);
+        recyclerView.setAdapter(adapter);
+    }
+
+
+
+
 }
