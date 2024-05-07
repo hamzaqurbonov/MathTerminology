@@ -1,5 +1,7 @@
 package com.example.mathterminology;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +30,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();;
     RecyclerView recyclerView;
+    private MainAdapter adapter;
+    Context context;
 //    DatabaseReference ref = myRef.child("data");
-    public  static ArrayList<String> nextArrayList = new ArrayList<>();
+    public  ArrayList<String> nextArrayList = new ArrayList<>();
     public Map<String, String> map = new HashMap<>();
 //    MapModel mapModel;
     @Override
@@ -37,12 +42,11 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        initViews();
 
 
 
 
-        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
+//        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
 
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -52,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 String value =  snapshot.getValue(String.class);
                 String value2 = (String) snapshot.getKey();
 
-                nextArrayList.add(value);
-
-                Log.d("demo21", "nextArrayList " + nextArrayList);
+                nextArrayList.add(value2);
+                initViews();
+//                Log.d("demo21", "nextArrayList " + nextArrayList);
 
 //                map.put(value2,value);
 // --------------------  Mapni ishakillantirib beradi ----------
@@ -93,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -108,12 +114,39 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+
+        adapter = new MainAdapter(nextArrayList);
+        recyclerView.setAdapter(adapter);
+
+
+
+//        adapter.setItemClickListner(new MainAdapter.OnItemClickListner() {
+//            @Override
+//            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+////                LongModel noteMode = documentSnapshot.toObject(LongModel.class);
+//                String dokumentId = documentSnapshot.getId();
+//                String path = documentSnapshot.getReference().getPath();
+////                Toast.makeText(MainActivity.this,  position + path  + id , Toast.LENGTH_SHORT).show();
+////                Log.d("demo22", String.valueOf( path));
+////                String getName = adapter.getItem(position).getName();
+////                String getId = adapter.getItem(position).getId();
+//
+////                String getImageUrl = adapter.getItem(position).getImageUrl();
+//                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+////                intent.putExtra("getName", getName);
+////                intent.putExtra("part", getId);
+////                intent.putExtra("dokumentId", dokumentId);
+//                startActivity(intent);
+//
+//            }
+//        });
+
+
+
+
     }
 
-    private void refreshAdapter (List<Member>members) {
-        MainAdapter adapter = new MainAdapter(context, members);
-        recyclerView.setAdapter(adapter);
-    }
+
 
 
 

@@ -1,71 +1,123 @@
 package com.example.mathterminology;
 
+import static com.google.firebase.database.DatabaseKt.getSnapshots;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainAdapter extends extends RecyclerView.Adapter< RecyclerView.ViewHolder> {
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainAdapter extends RecyclerView.Adapter< RecyclerView.ViewHolder> {
 
 
-private RecyclerViewClickListner listner;
-        MainActivity2 activity2;
-        List<String> activityllist ;
+    private RecyclerViewClickListner listner;
+    MainActivity activity;
+
+    ArrayList<String> nextArrayList;
 
 
-public Activity2Adapter(MainActivity2 activity2, List<String> activityllist, RecyclerViewClickListner listner) {
-        this.activityllist = activityllist;
-        this.activity2 = activity2;
+    public MainAdapter(ArrayList<String> nextArrayList) {
+        this.nextArrayList = nextArrayList;
+        this.activity = activity;
         this.listner = listner;
-        }
-
-
-@NonNull
-@Override
-public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity2_item, parent, false);
-
-        return new Activity2Adapter.Activity2AdapterViewHolder(view);
-        }
-
-@Override
-public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        TextView Url= ((Activity2AdapterViewHolder) holder).last_name;
-        Url.setText(activity2.activityllist.get(position));
-
-        }
-
-@Override
-public int getItemCount() {
-        int dd =  activity2.activityllist.size();
-        return dd;
-        }
+    }
 
 
 
-public class Activity2AdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    View view;
-    TextView Url, last_name;
 
-    public Activity2AdapterViewHolder(View v) {
-        super(v);
-        view = v;
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
 
-        Url = view.findViewById(R.id.first_2);
-        last_name = view.findViewById(R.id.last_2);
-        view.setOnClickListener(this);
+        return new MainAdapter.Activity2AdapterViewHolder(view);
     }
 
     @Override
-    public void onClick(View v) {
-        listner.onClick(view, getAdapterPosition());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        TextView Url= ((Activity2AdapterViewHolder) holder).first_2;
+        Url.setText(nextArrayList.get(position));
+
     }
 
-}
+    @Override
+    public int getItemCount() {
+        int dd =  nextArrayList.size();
+        Log.d("demo21", "nextArrayList " + nextArrayList +"  "+ dd);
+        return dd;
+    }
 
-public interface RecyclerViewClickListner {
-    void onClick(View v, int position);
-}
+
+
+
+
+
+//    class LongHolder extends RecyclerView.ViewHolder {
+//        TextView first_2, last_2;
+////        ImageView imgChildItem;
+//
+//        public LongHolder(View itemView) {
+//            super(itemView);
+//            first_2 = itemView.findViewById(R.id.first_2);
+////            Url = itemView.findViewById(R.id.first_name);
+////            imgChildItem = itemView.findViewById(R.id.img_child_item);
+//
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//                    if (position != RecyclerView.NO_POSITION && listner != null) {
+//                        listner.onItemClick(getSnapshots().getSnapshot(position), position);
+//                    }
+//                }
+//            });
+//        }
+//    }
+//
+//    public interface OnItemClickListner {
+//        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+//    }
+//    public void setItemClickListner(OnItemClickListner listner) {
+//        this.listner = listner;
+//    }
+
+
+
+
+
+    public class Activity2AdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        View view;
+        TextView first_2, last_2;
+
+        public Activity2AdapterViewHolder(View v) {
+            super(v);
+            view = v;
+
+            first_2 = view.findViewById(R.id.first_2);
+            last_2 = view.findViewById(R.id.last_2);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listner.onClick(view, getAdapterPosition());
+        }
+
+    }
+
+    public interface RecyclerViewClickListner {
+        void onClick(View v, int position);
+    }
 }
