@@ -21,13 +21,13 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter< RecyclerView.ViewHolder> {
 
 
-    private RecyclerViewClickListner listner;
+    public RecyclerViewClickListner listner;
     MainActivity activity;
 
     ArrayList<String> nextArrayList;
 
 
-    public MainAdapter(ArrayList<String> nextArrayList) {
+    public MainAdapter(ArrayList<String> nextArrayList, RecyclerViewClickListner listner) {
         this.nextArrayList = nextArrayList;
         this.activity = activity;
         this.listner = listner;

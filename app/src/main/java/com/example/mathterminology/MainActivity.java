@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -30,10 +32,12 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();;
     RecyclerView recyclerView;
+    MainAdapter.RecyclerViewClickListner listner;
     private MainAdapter adapter;
     Context context;
 //    DatabaseReference ref = myRef.child("data");
     public  ArrayList<String> nextArrayList = new ArrayList<>();
+    public  ArrayList<String> nameArrayList = new ArrayList<>();
     public Map<String, String> map = new HashMap<>();
 //    MapModel mapModel;
     @Override
@@ -57,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 String value2 = (String) snapshot.getKey();
 
                 nextArrayList.add(value2);
+                nameArrayList.add(value);
                 initViews();
+                setOnClickListner();
 //                Log.d("demo21", "nextArrayList " + nextArrayList);
 
 //                map.put(value2,value);
@@ -115,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
 
-        adapter = new MainAdapter(nextArrayList);
+        adapter = new MainAdapter(nextArrayList,listner);
         recyclerView.setAdapter(adapter);
 
 
@@ -143,6 +149,28 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+    }
+
+    private void setOnClickListner() {
+//        Log.d("demo15", );
+        listner = new MainAdapter.RecyclerViewClickListner() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+
+                String key = nextArrayList.get(position);
+                String name = nameArrayList.get(position);
+                Toast.makeText(MainActivity.this,  position +  " "+ key +" " + name , Toast.LENGTH_SHORT).show();
+                intent.putExtra( "key",key);
+                intent.putExtra( "name",name);
+                startActivity(intent);
+            }
+
+        };
 
     }
 
