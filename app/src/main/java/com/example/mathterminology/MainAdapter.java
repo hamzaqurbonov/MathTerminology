@@ -106,7 +106,7 @@ public class MainAdapter extends RecyclerView.Adapter< RecyclerView.ViewHolder> 
             view = v;
 
             first_2 = view.findViewById(R.id.first_2);
-            last_2 = view.findViewById(R.id.last_2);
+//            last_2 = view.findViewById(R.id.last_2);
             view.setOnClickListener(this);
         }
 

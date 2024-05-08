@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String key = nextArrayList.get(position);
                 String name = nameArrayList.get(position);
-                Toast.makeText(MainActivity.this,  position +  " "+ key +" " + name , Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this,  position +  " "+ key +" " + name , Toast.LENGTH_SHORT).show();
                 intent.putExtra( "key",key);
                 intent.putExtra( "name",name);
                 startActivity(intent);
