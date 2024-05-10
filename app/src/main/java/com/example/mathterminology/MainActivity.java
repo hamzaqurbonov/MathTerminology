@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 //        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
 
 
-        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        myRef.child("Abacus").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
