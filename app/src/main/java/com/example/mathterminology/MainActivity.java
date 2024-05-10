@@ -18,6 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
+
+
+        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("demo12", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("demo12", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
 
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -123,34 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new MainAdapter(nextArrayList,listner);
         recyclerView.setAdapter(adapter);
-
-
-
-//        adapter.setItemClickListner(new MainAdapter.OnItemClickListner() {
-//            @Override
-//            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-////                LongModel noteMode = documentSnapshot.toObject(LongModel.class);
-//                String dokumentId = documentSnapshot.getId();
-//                String path = documentSnapshot.getReference().getPath();
-////                Toast.makeText(MainActivity.this,  position + path  + id , Toast.LENGTH_SHORT).show();
-////                Log.d("demo22", String.valueOf( path));
-////                String getName = adapter.getItem(position).getName();
-////                String getId = adapter.getItem(position).getId();
-//
-////                String getImageUrl = adapter.getItem(position).getImageUrl();
-//                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
-////                intent.putExtra("getName", getName);
-////                intent.putExtra("part", getId);
-////                intent.putExtra("dokumentId", dokumentId);
-//                startActivity(intent);
-//
-//            }
-//        });
-
-
-
-
-
 
 
     }

@@ -1,6 +1,8 @@
 package com.example.mathterminology;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -34,4 +36,11 @@ public class MainActivity2 extends AppCompatActivity {
             return insets;
         });
     }
+
+    public void back() {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+
+        }
+
 }
