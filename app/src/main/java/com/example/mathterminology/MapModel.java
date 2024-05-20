@@ -3,30 +3,29 @@ package com.example.mathterminology;
 import java.util.Map;
 
 public class MapModel {
-    String key;
-    String name;
-    Map<String,Object> map;
+    String name, course;
 
-//    public MapModel(Map<String,Object> map) {
-////        this.key = key;
-////        this.name = name;
-//        this.map = map;
-//    }
 
-    String value2;
-    String value;
-    public MapModel(String value2) {
-    }
 
-    public Map<String, Object> getMap() {
-        return map;
-    }
+    public MapModel( String name, String course) {
+        this.course = course;
+        this.name = name;
 
-    public String getKey() {
-        return key;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 }

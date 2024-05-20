@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -26,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,24 +53,15 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-
+        setSupportActionBar(findViewById(R.id.toolbar));
+        getSupportActionBar().setTitle("");
 
 
 
 //        final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,nextArrayList);
 
 
-        myRef.child("Abacus").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("demo12", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("demo12", String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
+
 
 
         myRef.addChildEventListener(new ChildEventListener() {
@@ -132,6 +128,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+//   public void search () {
+//       myRef.child("Abacus").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//           @Override
+//           public void onComplete(@NonNull Task<DataSnapshot> task) {
+//               if (!task.isSuccessful()) {
+//                   Log.e("demo12", "Error getting data", task.getException());
+//               }
+//               else {
+//                   Log.d("demo12", String.valueOf(task.getResult().getValue()));
+//               }
+//           }
+//       });
+//   }
+//
+//
+//    private void setUpRecyclerView() {
+//
+//        Query query = hadRef.orderBy("idUrl", Query.Direction.DESCENDING);
+//
+//        FirestoreRecyclerOptions<LongModel> options = new FirestoreRecyclerOptions.Builder<LongModel>().setQuery(query, LongModel.class).build();
+//
+//        adapter = new LongAdapter(options);
+//
+////        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+////        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+//        recyclerView.setAdapter(adapter);
+//
+//    }
+
+
+
     private void initViews() {
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -163,6 +191,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item,menu);
+        MenuItem menuItem = menu.findItem(R.id.searchId);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+
+        searchView.setQueryHint("Search 123");
+        Log.d("demo3", "mysearch: 1");
+
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String newText) {
+                mysearch(newText);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                mysearch(newText);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    private void mysearch(String str) {
+
+
+        Log.d("demo3", "mysearch: 2");
+
+    }
 
 
 
