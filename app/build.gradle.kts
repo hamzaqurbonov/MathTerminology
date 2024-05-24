@@ -66,4 +66,7 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.orhanobut:dialogplus:1.11@aar")
 
+    //DocumentSnapshot
+      implementation ("com.google.firebase:firebase-firestore:17.0.4")
+
 }
