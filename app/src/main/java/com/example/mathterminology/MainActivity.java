@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        rview.getRecycledViewPool().clear();
+        adapter.notifyDataSetChanged();
         adapter.startListening();
     }
 
