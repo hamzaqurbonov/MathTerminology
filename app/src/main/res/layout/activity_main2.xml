@@ -16,8 +16,8 @@
 
 
         <ImageButton
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:onClick="back"
             android:background="@drawable/baseline_arrow_back_24"
 
