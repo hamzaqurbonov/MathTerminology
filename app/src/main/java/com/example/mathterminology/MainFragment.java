@@ -31,11 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainFragment extends Fragment {
 
-
-
+    DbHistory dbHistory;
     RecyclerView rview;
     myadapter adapter;
-
     MenuItem menuItem;
     SearchView searchView;
     Toolbar toolbar;
@@ -43,14 +41,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
-
-
         View view =    inflater.inflate(R.layout.fragment_main, container, false);
-
-
 
         toolbar = view.findViewById( R.id.toolbar );
 
@@ -58,20 +49,8 @@ public class MainFragment extends Fragment {
 
         activity.setSupportActionBar( toolbar );
         activity.getSupportActionBar().setTitle("");
-
-
-
-
-
         rview = view.findViewById(R.id.rview);
-
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(view.findViewById(R.id.toolbar));
-//        ((AppCompatActivity)getActivity()). getSupportActionBar().setTitle("");
-
-
-
         setUpRecyclerView();
-
         return view;
     }
 
@@ -81,6 +60,7 @@ public class MainFragment extends Fragment {
 
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        dbHistory = new DbHistory(getContext());
     }
 
     @Override
@@ -141,6 +121,8 @@ public class MainFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MainActivity2.class);
                 intent.putExtra("word", getWord);
                 intent.putExtra("translate", getTranslate);
+
+                dbHistory.addNewCourse(getWord, getTranslate);
 //                intent.putExtra("dokumentId", dokumentId);
                 startActivity(intent);
 

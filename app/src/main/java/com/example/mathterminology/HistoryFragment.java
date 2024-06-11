@@ -3,10 +3,14 @@ package com.example.mathterminology;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,19 +50,61 @@ public class HistoryFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
+    private ArrayList<HistoryModel> modalArrayList;
+    private DbHistory dbHistory;
+    private HistoryAdapter historyAdapter;
+    private RecyclerView recyHistory;
+
+
+
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_history, container, false);
+
+        recyHistory = view. findViewById(R.id.recyHistory);
+
+
+        modalArrayList = new ArrayList<>();
+        dbHistory = new DbHistory(getActivity());
+
+        // getting our course array
+        // list from db handler class.
+        modalArrayList = dbHistory.readCourses();
+
+        // on below line passing our array list to our adapter class.
+        historyAdapter = new HistoryAdapter(modalArrayList, getActivity());
+
+
+        // setting layout manager for our recycler view.
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recyHistory.setLayoutManager(linearLayoutManager);
+
+        // setting our adapter to recycler view.
+        recyHistory.setAdapter(historyAdapter);
+
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        return view;
     }
+
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+//
+//
+//
+//    }
 }
