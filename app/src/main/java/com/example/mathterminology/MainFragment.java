@@ -16,18 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-//import android.view.MenuItem;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
-
-
 
 public class MainFragment extends Fragment {
 
@@ -46,7 +42,6 @@ public class MainFragment extends Fragment {
         toolbar = view.findViewById( R.id.toolbar );
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
-
         activity.setSupportActionBar( toolbar );
         activity.getSupportActionBar().setTitle("");
         rview = view.findViewById(R.id.rview);
@@ -57,7 +52,6 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         dbHistory = new DbHistory(getContext());
@@ -93,9 +87,6 @@ public class MainFragment extends Fragment {
 
 
     private void setUpRecyclerView() {
-
-
-//        rview = findViewById(R.id.rview);
         rview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseRecyclerOptions<model> options =
@@ -109,21 +100,16 @@ public class MainFragment extends Fragment {
         adapter.setItemClickListner(new myadapter.OnItemClickListner() {
             @Override
             public void onItemClick(DataSnapshot documentSnapshot, int position) {
-//                LongModel noteMode = documentSnapshot.toObject(LongModel.class);
-//                String dokumentId = documentSnapshot.getId();
-//                String path = documentSnapshot.getReference().getPath();
-//                Toast.makeText(MainActivity.this,  position + path  + id , Toast.LENGTH_SHORT).show();
-//                Log.d("demo22", String.valueOf( path));
+
                 String getWord = adapter.getItem(position).getWord();
                 String getTranslate = adapter.getItem(position).getTranslate();
 
-//                String getImageUrl = adapter.getItem(position).getImageUrl();
                 Intent intent = new Intent(getContext(), MainActivity2.class);
                 intent.putExtra("word", getWord);
                 intent.putExtra("translate", getTranslate);
 
                 dbHistory.addNewCourse(getWord, getTranslate);
-//                intent.putExtra("dokumentId", dokumentId);
+
                 startActivity(intent);
 
             }
@@ -131,30 +117,6 @@ public class MainFragment extends Fragment {
 
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//       getMenuInflater().inflate(R.menu.menu_item,menu);
-//
-//        MenuItem item = menu.findItem(R.id.search_1);
-//
-//        SearchView searchView = (SearchView)item.getActionView();
-//        searchView.setQueryHint("Qidiruv");
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                processSearch(s);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                processSearch(s);
-//                return false;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     void processSearch(String s) {
 
@@ -169,19 +131,13 @@ public class MainFragment extends Fragment {
         adapter.setItemClickListner(new myadapter.OnItemClickListner() {
             @Override
             public void onItemClick(DataSnapshot documentSnapshot, int position) {
-//                LongModel noteMode = documentSnapshot.toObject(LongModel.class);
-//                String dokumentId = documentSnapshot.getId();
-//                String path = documentSnapshot.getReference().getPath();
-//                Toast.makeText(MainActivity.this,  position + path  + id , Toast.LENGTH_SHORT).show();
-//                Log.d("demo22", String.valueOf( path));
+
                 String getWord = adapter.getItem(position).getWord();
                 String getTranslate = adapter.getItem(position).getTranslate();
 
-//                String getImageUrl = adapter.getItem(position).getImageUrl();
                 Intent intent = new Intent(getContext(), MainActivity2.class);
                 intent.putExtra("word", getWord);
                 intent.putExtra("translate", getTranslate);
-//                intent.putExtra("dokumentId", dokumentId);
                 startActivity(intent);
 
             }

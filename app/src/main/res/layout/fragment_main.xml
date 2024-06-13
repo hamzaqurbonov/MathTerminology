@@ -8,19 +8,6 @@
 
     tools:context=".MainFragment">
 
-<!--    android:id="@+id/body_container"v-->
-    <!-- TODO: Update blank fragment layout -->
-
-<!--    <TextView-->
-<!--        android:id="@+id/textView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:text="@string/hello_blank_fragment"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteY="-64dp" />-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rview"
         android:layout_width="match_parent"
@@ -43,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_item"
-
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

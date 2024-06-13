@@ -14,27 +14,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:onClick="back"
-            android:background="@drawable/baseline_arrow_back_24"
-
-            />
+            android:background="@drawable/baseline_arrow_back_24"/>
 
     </LinearLayout>
-
-    <!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/keyTextId"-->
-<!--        android:layout_margin="0dp"-->
-<!--        android:layout_marginTop="0dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/keyTextId">-->
 
     <TextView
         android:id="@+id/keyTextId"
@@ -75,6 +61,5 @@
         app:layout_constraintHorizontal_bias="0.445"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/keyTextId" />
-    <!--    </androidx.cardview.widget.CardView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void back() {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainFragment.class);
             startActivity(intent);
 
         }

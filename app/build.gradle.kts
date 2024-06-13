@@ -47,21 +47,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-
-//    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
-//    implementation("com.google.firebase:firebase-analytics")
-//
-//    // FirestoreRecyclerOptions
-//    implementation ("com.google.firebase:firebase-firestore:17.0.4")
-//    implementation ("com.google.firebase:firebase-core:21.1.1")
-//    implementation ("com.firebaseui:firebase-ui-firestore:7.1.1")
-
-
-//    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
-//    implementation 'com.github.bumptech.glide:glide:4.14.2'
-//    implementation 'de.hdodenhof:circleimageview:3.1.0'
-//    implementation 'com.orhanobut:dialogplus:1.11@aar'
+    
 
     implementation ("com.firebaseui:firebase-ui-database:8.0.2")
     implementation ("com.github.bumptech.glide:glide:4.14.2")
