@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity2 extends AppCompatActivity {
     String translate, word;
+    DbLike dbLike;
     TextView wordId, translateId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,10 @@ public class MainActivity2 extends AppCompatActivity {
     public void back() {
             Intent intent = new Intent(getApplicationContext(), MainFragment.class);
             startActivity(intent);
-
+            finish();
         }
 
+    public void buttonLike() {
+        dbLike.addNewCourse(translate, word);
+    }
 }
