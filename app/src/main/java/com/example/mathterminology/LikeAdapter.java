@@ -22,16 +22,16 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public LikeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.like_item, parent, false);
-        return new LikeAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LikeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LakeModel lakeModel  = courseModalArrayList.get(position);
-        holder.courseTracksTV.setText(lakeModel.getCourseTracks());
-        holder.courseIdTest.setText(lakeModel.getCourseTest());
+        holder.Word.setText(lakeModel.getCourseTracks());
+        holder.Traslate.setText(lakeModel.getCourseTest());
     }
 
     @Override
@@ -40,12 +40,12 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView courseTracksTV, courseIdTest ;
+        private TextView Traslate, Word ;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            courseTracksTV = itemView.findViewById(R.id.textLikeIdTraslate);
-            courseIdTest = itemView.findViewById(R.id.textLikeIdWord);
+            Traslate = itemView.findViewById(R.id.textLikeIdTraslate);
+            Word = itemView.findViewById(R.id.textLikeIdWord);
         }
     }
 

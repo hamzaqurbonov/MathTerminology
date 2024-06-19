@@ -1,5 +1,6 @@
 package com.example.mathterminology;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,24 +21,25 @@ public class LikeFragment extends Fragment {
     private LikeAdapter likeAdapter;
     private RecyclerView recyWiewLike;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_like, container, false);
 
         recyWiewLike = view. findViewById(R.id.recyLike);
 
 
         modalArrayList = new ArrayList<>();
         dbLike = new DbLike(getActivity());
-
+//
         modalArrayList = dbLike.readCourses();
-
+//
         likeAdapter = new LikeAdapter(modalArrayList, getActivity());
-
+//
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyWiewLike.setLayoutManager(linearLayoutManager);
-
+//
         recyWiewLike.setAdapter(likeAdapter);
 
         return view;

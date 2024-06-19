@@ -1,9 +1,12 @@
 package com.example.mathterminology;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,15 +18,22 @@ public class MainActivity2 extends AppCompatActivity {
     String translate, word;
     DbLike dbLike;
     TextView wordId, translateId;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
 
+
+        dbLike = new DbLike(MainActivity2.this);
+
+
+
         wordId = findViewById(R.id.keyTextId);
         translateId = findViewById(R.id.TextId);
 
+        Log.d("demo22", String.valueOf(dbLike) +  wordId);
 
         translate = getIntent().getExtras().getString("translate");
         word = getIntent().getExtras().getString("word");
@@ -40,11 +50,14 @@ public class MainActivity2 extends AppCompatActivity {
 
     public void back() {
             Intent intent = new Intent(getApplicationContext(), MainFragment.class);
+
             startActivity(intent);
             finish();
         }
 
-    public void buttonLike() {
-        dbLike.addNewCourse(translate, word);
+
+    public void buttonLike(View view) {
+        dbLike.addNewCourse(word, translate);
+        Toast.makeText(MainActivity2.this,  "Matin saqlandi!", Toast.LENGTH_SHORT).show();
     }
 }
