@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -84,21 +85,23 @@ public class HistoryFragment extends Fragment {
     }
 
     public void confirmDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Delete All?");
-        builder.setMessage("Are you sure you want to delete all Data?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Matinni o'chirish");
+        builder.setMessage("Barcha matinni o'chirishni istaysizmi?");
+        builder.setPositiveButton("Ha", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 //                DBHandler myDB = new DBHandler(ViewCourses.this);
                 dbHistory.deleteAllData();
+                Toast.makeText(getContext(),  "Barcha matin o'chirildi!", Toast.LENGTH_SHORT).show();
                 //Refresh Activity
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
+
 //                finish();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Yo'q", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

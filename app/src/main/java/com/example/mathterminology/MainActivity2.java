@@ -1,6 +1,8 @@
 package com.example.mathterminology;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,15 +51,41 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void back() {
-            Intent intent = new Intent(getApplicationContext(), MainFragment.class);
+            Intent intent = new Intent(MainActivity2.this, MainActivity.class);
 
             startActivity(intent);
-            finish();
+//            finish();
         }
 
 
     public void buttonLike(View view) {
-        dbLike.addNewCourse(word, translate);
+        confirmDialog();
+//        Toast.makeText(MainActivity2.this,  "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void confirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Matinni saqlash?");
+        builder.setMessage("Matnni saqlash menyusiga saqlashni istaysizmi?");
+        builder.setPositiveButton("Saqlayman", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dbLike.addNewCourse(word, translate);
         Toast.makeText(MainActivity2.this,  "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+//                DBHandler myDB = new DBHandler(ViewCourses.this);
+//                dbHistory.deleteAllData();
+                //Refresh Activity
+//                Intent intent = new Intent(getContext(), MainActivity.class);
+//                startActivity(intent);
+//                finish();
+            }
+        });
+        builder.setNegativeButton("Shart emas", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
     }
 }
