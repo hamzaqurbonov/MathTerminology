@@ -1,12 +1,21 @@
 package com.example.mathterminology;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +27,7 @@ public class HistoryFragment extends Fragment {
     private DbHistory dbHistory;
     private HistoryAdapter historyAdapter;
     private RecyclerView recyHistory;
+    Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +35,11 @@ public class HistoryFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_history, container, false);
 
         recyHistory = view. findViewById(R.id.recyHistory);
+
+        toolbar = view.findViewById( R.id.toolbar );
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+//        activity.getSupportActionBar().setTitle("");
 
 
         modalArrayList = new ArrayList<>();
@@ -41,5 +56,57 @@ public class HistoryFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_delete,menu);
+
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_delete, menu);
+//        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.delete_all){
+            confirmDialog();
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    public void confirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Delete All?");
+        builder.setMessage("Are you sure you want to delete all Data?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                DBHandler myDB = new DBHandler(ViewCourses.this);
+                dbHistory.deleteAllData();
+                //Refresh Activity
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+//                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
+    }
+
+
 
 }
