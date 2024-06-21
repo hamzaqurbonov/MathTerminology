@@ -19,9 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="3dp"
             android:text="Word"
-            android:textColor="@color/black" />
+            android:textSize="17dp"
+            android:textColor="#1E7EC1"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:layout_marginLeft="5dp"/>
 
         <TextView
             android:id="@+id/textLikeIdTraslate"
@@ -30,7 +33,9 @@
             android:layout_weight="1"
             android:padding="3dp"
             android:text="Translate"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginLeft="5dp"
+            android:textStyle="italic"/>
 
     </LinearLayout>
 

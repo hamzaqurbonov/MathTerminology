@@ -5,17 +5,17 @@
     <item
         android:id="@+id/nav_main"
         android:orderInCategory="1"
-        android:title="Asosiy"
+        android:title="ASOSIY"
         />
 
     <item
         android:id="@+id/nav_live"
         android:orderInCategory="2"
-        android:title="Ko'rilgan" />
+        android:title="KO'RILGAN" />
 
     <item
         android:id="@+id/nav_like"
         android:orderInCategory="3"
-        android:title="Saqlangan" />
+        android:title="SAQLANGAN" />
 
 </menu>
