@@ -106,6 +106,11 @@ public class HistoryFragment extends Fragment {
         builder.create().show();
     }
 
+    public void refresh() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }

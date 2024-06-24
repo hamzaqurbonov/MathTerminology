@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>  {
 
     private Context context;
+    HistoryFragment historyFragment;
     DbHistory dbHistory ;
 private ArrayList<HistoryModel> courseModalArrayList;
 
@@ -54,10 +55,13 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         @Override
         public void onClick(View v) {
             // calling a method to delete our course.
-            dbHistory.deleteSelect("2");
+            dbHistory.deleteSelect(modal.getCourseTracks());
+
+            Log.d("demo1", modal.getCourseTracks());
+
             Toast.makeText(v.getContext(), "Deleted the course", Toast.LENGTH_SHORT).show();
-//            Intent i = new Intent(UpdateCourseActivity.this, MainActivity.class);
-//            startActivity(i);
+//            HistoryFragment.onResume();
+
         }
     });
 

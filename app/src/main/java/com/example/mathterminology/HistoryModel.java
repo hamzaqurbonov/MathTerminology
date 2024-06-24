@@ -19,7 +19,7 @@ public class HistoryModel {
 //    public String setId(int id) { this.id = id; }
 
     // constructor
-    public HistoryModel(String courseTest,String courseTracks, String id)
+    public HistoryModel(String courseTest,String courseTracks)
     {
         this.courseTracks = courseTracks;
         this.courseTest = courseTest;
