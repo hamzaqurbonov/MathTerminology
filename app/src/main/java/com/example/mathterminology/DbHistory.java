@@ -34,6 +34,7 @@ public class DbHistory extends SQLiteOpenHelper {
     public void addNewCourse(String courseTest, String courseTracks) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+//        values.put(ID_COL, id);
         values.put(TRACKS_COL, courseTracks);
         values.put(TEST_COL1, courseTest);
         db.insert(TABLE_NAME, null, values);
@@ -50,7 +51,8 @@ public class DbHistory extends SQLiteOpenHelper {
             do {
                 courseModalArrayList.add(new HistoryModel(
                         cursorCourses.getString(1),
-                        cursorCourses.getString(2)
+                        cursorCourses.getString(2),
+                        cursorCourses.getString(3)
                 ));
             } while (cursorCourses.moveToNext());
         }
@@ -73,8 +75,15 @@ public class DbHistory extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void deleteAllData(){
+    public  void deleteAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
+    }
+
+
+    public void deleteSelect(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_NAME, ID_COL + " = ?", new String[]{id});
+        db.close();
     }
 }

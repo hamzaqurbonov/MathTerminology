@@ -4,7 +4,7 @@ public class HistoryModel {
 
      private String courseTracks;
     private String courseTest;
-    private int id;
+    private String id;
 
     public String getCourseTest() {
         return courseTest;
@@ -14,15 +14,16 @@ public class HistoryModel {
     public String getCourseTracks() { return courseTracks; }
 
 
-    public int getId() { return id; }
+    public String getId() { return id; }
 
-    public void setId(int id) { this.id = id; }
+//    public String setId(int id) { this.id = id; }
 
     // constructor
-    public HistoryModel(String courseTest,String courseTracks)
+    public HistoryModel(String courseTest,String courseTracks, String id)
     {
         this.courseTracks = courseTracks;
         this.courseTest = courseTest;
+        this.id = id;
     }
 
 

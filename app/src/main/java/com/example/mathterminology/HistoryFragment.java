@@ -68,10 +68,6 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_delete,menu);
-
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_delete, menu);
-//        return super.onCreateOptionsMenu(menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
