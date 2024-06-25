@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -51,15 +52,9 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     holder.deleteSelect.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // calling a method to delete our course.
             dbHistory.deleteSelect(Integer.toString(modal.getId()));
 
-//            Log.d("demo1", String.valueOf(modal.getId()));
-//            Log.d("demo1", modal.getCourseTracks());
-
-
-            Toast.makeText(v.getContext(), "Deleted the course", Toast.LENGTH_SHORT).show();
-//            HistoryFragment.onResume();
+            Toast.makeText(v.getContext(), "Matin o'chirildi", Toast.LENGTH_SHORT).show();
 
         }
     });
@@ -68,6 +63,8 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
         }
+
+
 
 @Override
 public int getItemCount() {

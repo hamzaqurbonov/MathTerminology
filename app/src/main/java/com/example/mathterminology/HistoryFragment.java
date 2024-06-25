@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
-
+    public SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<HistoryModel> modalArrayList;
     private DbHistory dbHistory;
     private HistoryAdapter historyAdapter;
@@ -35,6 +36,8 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_history, container, false);
 
+
+        swipeRefreshLayout = view. findViewById(R.id.swipeRefreshLayout);
         recyHistory = view. findViewById(R.id.recyHistory);
 
         toolbar = view.findViewById( R.id.toolbar );
@@ -55,7 +58,31 @@ public class HistoryFragment extends Fragment {
 
         recyHistory.setAdapter(historyAdapter);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                RearrangeItems();
+            }
+        });
+
+
         return view;
+    }
+
+    public void RearrangeItems() {
+
+//        modalArrayList = new ArrayList<>();
+//        dbHistory = new DbHistory(getActivity());
+
+        modalArrayList = dbHistory.readCourses();
+
+        historyAdapter = new HistoryAdapter(modalArrayList, getActivity());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recyHistory.setLayoutManager(linearLayoutManager);
+
+        recyHistory.setAdapter(historyAdapter);
     }
 
     @Override
