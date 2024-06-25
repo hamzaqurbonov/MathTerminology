@@ -45,19 +45,18 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     HistoryModel modal = courseModalArrayList.get(position);
         holder.courseTracksTV.setText(modal.getCourseTracks());
         holder.courseIdTest.setText(modal.getCourseTest());
-        holder.idTebel.setText(modal.getId());
+//        holder.idTebel.setText(Integer.toString(modal.getId()));
 
 
-
-
-    // adding on click listener for delete button to delete our course.
     holder.deleteSelect.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             // calling a method to delete our course.
-            dbHistory.deleteSelect(modal.getCourseTracks());
+            dbHistory.deleteSelect(Integer.toString(modal.getId()));
 
-            Log.d("demo1", modal.getCourseTracks());
+//            Log.d("demo1", String.valueOf(modal.getId()));
+//            Log.d("demo1", modal.getCourseTracks());
+
 
             Toast.makeText(v.getContext(), "Deleted the course", Toast.LENGTH_SHORT).show();
 //            HistoryFragment.onResume();
@@ -82,7 +81,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
-        idTebel = itemView.findViewById(R.id.id_tebel);
+//        idTebel = itemView.findViewById(R.id.id_tebel);
         courseTracksTV = itemView.findViewById(R.id.idTVCourseTracks);
         courseIdTest = itemView.findViewById(R.id.idTest);
         deleteSelect = itemView.findViewById(R.id.delete_select);

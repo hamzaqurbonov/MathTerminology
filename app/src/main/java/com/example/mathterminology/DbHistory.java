@@ -24,9 +24,7 @@ public class DbHistory extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME +
-                " ("
-                + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+        String query = "CREATE TABLE " + TABLE_NAME + " (" + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TRACKS_COL + " TEXT,"
                 + TEST_COL1 + " TEXT)";
         db.execSQL(query);
@@ -42,6 +40,8 @@ public class DbHistory extends SQLiteOpenHelper {
     }
 
     public ArrayList<HistoryModel> readCourses() {
+
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursorCourses = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
@@ -49,10 +49,15 @@ public class DbHistory extends SQLiteOpenHelper {
 
         if (cursorCourses.moveToFirst()) {
             do {
-                courseModalArrayList.add(new HistoryModel(
-                        cursorCourses.getString(1),
-                        cursorCourses.getString(2)
-                ));
+                int Id = Integer.parseInt(cursorCourses.getString(0));
+                String courseTracks = cursorCourses.getString(1);
+                String courseTest = cursorCourses.getString(2);
+//                courseModalArrayList.add(new HistoryModel(
+//                        cursorCourses.getString(1),
+//                        cursorCourses.getString(2)
+//                ));
+
+                courseModalArrayList.add(new HistoryModel(Id, courseTracks, courseTest));
             } while (cursorCourses.moveToNext());
         }
         cursorCourses.close();
@@ -82,7 +87,7 @@ public class DbHistory extends SQLiteOpenHelper {
 
     public void deleteSelect(String id) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_NAME, TEST_COL1 + " = ?", new String[]{id});
+        db.delete(TABLE_NAME, ID_COL + " = ?", new String[]{id});
 //        db.delete(TABLE_NAME, ID_COL + " = ?", new String[]{id});
         db.close();
     }
