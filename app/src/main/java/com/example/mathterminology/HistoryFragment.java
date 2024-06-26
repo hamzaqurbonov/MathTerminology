@@ -64,7 +64,7 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-    public void swipeRefresh(){
+    private void swipeRefresh(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,7 +74,7 @@ public class HistoryFragment extends Fragment {
         });
     }
 
-    public void RearrangeItems() {
+    private void RearrangeItems() {
 
         modalArrayList = dbHistory.readCourses();
 

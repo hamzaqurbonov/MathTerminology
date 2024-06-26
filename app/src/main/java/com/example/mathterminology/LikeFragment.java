@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class LikeFragment extends Fragment {
-
+    public SwipeRefreshLayout swipeRefreshLayout;
 
     private ArrayList<LakeModel> modalArrayList;
     private DbLike dbLike;
@@ -39,7 +40,7 @@ public class LikeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_like, container, false);
 
         recyWiewLike = view. findViewById(R.id.recyLike);
-
+        swipeRefreshLayout = view. findViewById(R.id.swipeRefreshLayout);
 
         toolbar = view.findViewById( R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -57,8 +58,30 @@ public class LikeFragment extends Fragment {
         recyWiewLike.setLayoutManager(linearLayoutManager);
 //
         recyWiewLike.setAdapter(likeAdapter);
-
+        swipeRefresh();
         return view;
+    }
+
+    private void swipeRefresh(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                RearrangeItems();
+            }
+        });
+    }
+
+    private void RearrangeItems() {
+
+        modalArrayList = dbLike.readCourses();
+
+        likeAdapter = new LikeAdapter(modalArrayList, getActivity());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recyWiewLike.setLayoutManager(linearLayoutManager);
+
+        recyWiewLike.setAdapter(likeAdapter);
     }
 
 
