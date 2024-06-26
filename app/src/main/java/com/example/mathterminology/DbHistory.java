@@ -64,14 +64,6 @@ public class DbHistory extends SQLiteOpenHelper {
         return courseModalArrayList;
     }
 
-    public void deleteCourse(String courseName) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.delete(TABLE_NAME, "name=?", new String[]{courseName});
-        db.close();
-    }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -88,7 +80,6 @@ public class DbHistory extends SQLiteOpenHelper {
     public void deleteSelect(String id) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_NAME, ID_COL + " = ?", new String[]{id});
-//        db.delete(TABLE_NAME, ID_COL + " = ?", new String[]{id});
         db.close();
     }
 }

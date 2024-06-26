@@ -3,7 +3,7 @@ package com.example.mathterminology;
 public class LakeModel {
     private String courseTracks;
     private String courseTest;
-    private int id;
+    private Integer Id;
 
     public String getCourseTest() {
         return courseTest;
@@ -13,15 +13,15 @@ public class LakeModel {
     public String getCourseTracks() { return courseTracks; }
 
 
-    public int getId() { return id; }
+    public Integer getId() {
+        return Id;
+    }
 
-    public void setId(int id) { this.id = id; }
-
-    // constructor
-    public LakeModel(String courseTest,String courseTracks)
+    public LakeModel(int Id, String courseTest, String courseTracks)
     {
         this.courseTracks = courseTracks;
         this.courseTest = courseTest;
+        this.Id = Id;
     }
 
 

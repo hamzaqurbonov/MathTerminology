@@ -40,6 +40,7 @@ public class DbLike extends SQLiteOpenHelper {
     }
 
     public ArrayList<LakeModel> readCourses() {
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursorCourses = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
@@ -47,10 +48,15 @@ public class DbLike extends SQLiteOpenHelper {
 
         if (cursorCourses.moveToFirst()) {
             do {
-                courseModalArrayList.add(new LakeModel(
-                        cursorCourses.getString(1),
-                        cursorCourses.getString(2)
-                ));
+                int Id = Integer.parseInt(cursorCourses.getString(0));
+                String courseTracks = cursorCourses.getString(1);
+                String courseTest = cursorCourses.getString(2);
+                courseModalArrayList.add(new LakeModel(Id, courseTracks, courseTest));
+
+//                courseModalArrayList.add(new LakeModel(
+//                        cursorCourses.getString(1),
+//                        cursorCourses.getString(2)
+//                ));
             } while (cursorCourses.moveToNext());
         }
         cursorCourses.close();
@@ -75,6 +81,12 @@ public class DbLike extends SQLiteOpenHelper {
     void deleteAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
+    }
+
+    public void deleteSelect(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_NAME, ID_COL + " = ?", new String[]{id});
+        db.close();
     }
 }
 

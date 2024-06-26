@@ -30,11 +30,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private Context context;
     HistoryFragment historyFragment;
     DbHistory dbHistory ;
-private ArrayList<HistoryModel> courseModalArrayList;
+private ArrayList<HistoryModel> мodalArrayList;
 
 
-public HistoryAdapter(ArrayList<HistoryModel> courseModalArrayList, Context context) {
-        this.courseModalArrayList = courseModalArrayList;
+public HistoryAdapter(ArrayList<HistoryModel> мodalArrayList, Context context) {
+        this.мodalArrayList = мodalArrayList;
         this.context = context;
         dbHistory = new DbHistory(context);
         }
@@ -48,7 +48,7 @@ public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 @Override
 public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    HistoryModel modal = courseModalArrayList.get(position);
+    HistoryModel modal = мodalArrayList.get(position);
         holder.courseTracksTV.setText(modal.getCourseTracks());
         holder.courseIdTest.setText(modal.getCourseTest());
 //        holder.idTebel.setText(Integer.toString(modal.getId()));
@@ -67,14 +67,14 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 }
 
 void Refresh(ArrayList<HistoryModel> events) {
-    courseModalArrayList.clear();
-    courseModalArrayList.addAll(events);
+    мodalArrayList.clear();
+    мodalArrayList.addAll(events);
     notifyDataSetChanged();
 }
 
 @Override
 public int getItemCount() {
-        return courseModalArrayList.size();
+        return мodalArrayList.size();
         }
 
 public class ViewHolder extends RecyclerView.ViewHolder {
