@@ -18,4 +18,9 @@
         android:orderInCategory="3"
         android:title="SAQLANGAN" />
 
+    <item
+        android:id="@+id/share_send"
+        android:orderInCategory="4"
+        android:title="SHARE SEND" />
+
 </menu>

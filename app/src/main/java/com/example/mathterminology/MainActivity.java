@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -41,6 +42,20 @@ public class MainActivity extends AppCompatActivity {
         }else if (itemId == R.id.nav_like) {
             selectedFragment = new LikeFragment();
 
+        }
+        else if (itemId == R.id.share_send) {
+            findViewById(R.id.share_send).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT, "Matematik tenmenlar ilovasini sinab ko'ring (https://)");
+                    intent.setType("text/plain");
+                    if(intent.resolveActivity(getPackageManager()) !=null){
+                        startActivity(intent);
+                    }
+                }
+            });
         }
 
         if (selectedFragment != null) {
