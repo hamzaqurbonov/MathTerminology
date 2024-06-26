@@ -58,6 +58,13 @@ public class HistoryFragment extends Fragment {
 
         recyHistory.setAdapter(historyAdapter);
 
+
+        swipeRefresh();
+
+        return view;
+    }
+
+    public void swipeRefresh(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -65,15 +72,9 @@ public class HistoryFragment extends Fragment {
                 RearrangeItems();
             }
         });
-
-
-        return view;
     }
 
     public void RearrangeItems() {
-
-//        modalArrayList = new ArrayList<>();
-//        dbHistory = new DbHistory(getActivity());
 
         modalArrayList = dbHistory.readCourses();
 

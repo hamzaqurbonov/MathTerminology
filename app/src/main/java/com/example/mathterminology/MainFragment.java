@@ -12,6 +12,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainFragment extends Fragment {
-
+    SwipeRefreshLayout swipeRefreshLayout;
     DbHistory dbHistory;
     RecyclerView rview;
     myadapter adapter;
@@ -39,15 +40,37 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =    inflater.inflate(R.layout.fragment_main, container, false);
 
+//        swipeRefreshLayout = view. findViewById(R.id.swipeRefreshLayout);
+
         toolbar = view.findViewById( R.id.toolbar );
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar( toolbar );
         activity.getSupportActionBar().setTitle("");
         rview = view.findViewById(R.id.rview);
+//        swipeRefresh();
         setUpRecyclerView();
+
         return view;
     }
+
+    public void swipeRefresh(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                rview.setLayoutManager(new LinearLayoutManager(getContext()));
+                FirebaseRecyclerOptions<model> options =
+                        new FirebaseRecyclerOptions.Builder<model>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology"), model.class)
+                                .build();
+                adapter = new myadapter(options);
+                rview.setAdapter(adapter);
+            }
+        });
+    }
+
+
 
 
     @Override

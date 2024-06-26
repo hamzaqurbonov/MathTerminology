@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -18,7 +19,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>  {
 
@@ -55,16 +60,17 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             dbHistory.deleteSelect(Integer.toString(modal.getId()));
 
             Toast.makeText(v.getContext(), "Matin o'chirildi", Toast.LENGTH_SHORT).show();
-
+            Refresh(dbHistory.readCourses());
         }
+
     });
+}
 
-
-
-
-        }
-
-
+void Refresh(ArrayList<HistoryModel> events) {
+    courseModalArrayList.clear();
+    courseModalArrayList.addAll(events);
+    notifyDataSetChanged();
+}
 
 @Override
 public int getItemCount() {
