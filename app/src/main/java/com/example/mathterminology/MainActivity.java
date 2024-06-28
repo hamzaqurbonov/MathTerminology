@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
-                    intent.putExtra(Intent.EXTRA_TEXT, "Matematik tenmenlar ilovasini sinab ko'ring (https://)");
+                    intent.putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=NCLQDpykaw0");
                     intent.setType("text/plain");
                     if(intent.resolveActivity(getPackageManager()) !=null){
                         startActivity(intent);
