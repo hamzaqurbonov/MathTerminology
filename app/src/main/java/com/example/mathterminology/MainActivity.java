@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
                     intent.setAction(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=NCLQDpykaw0");
                     intent.setType("text/plain");
-                    if(intent.resolveActivity(getPackageManager()) !=null){
+//                    if(intent.resolveActivity(getPackageManager()) !=null){
                         startActivity(intent);
-                    }
+//                    }
                 }
             });
         }

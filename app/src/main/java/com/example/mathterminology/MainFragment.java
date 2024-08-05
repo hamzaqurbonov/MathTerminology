@@ -36,8 +36,7 @@ public class MainFragment extends Fragment {
     Toolbar toolbar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =    inflater.inflate(R.layout.fragment_main, container, false);
 
 //        swipeRefreshLayout = view. findViewById(R.id.swipeRefreshLayout);
@@ -47,6 +46,7 @@ public class MainFragment extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar( toolbar );
         activity.getSupportActionBar().setTitle("");
+
         rview = view.findViewById(R.id.rview);
 //        swipeRefresh();
         setUpRecyclerView();
