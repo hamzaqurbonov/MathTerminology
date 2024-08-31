@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ public class MainActivity2 extends AppCompatActivity {
     String translate, word;
     DbLike dbLike;
     TextView wordId, translateId;
+
+    ImageView send;
     Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         wordId = findViewById(R.id.keyTextId);
         translateId = findViewById(R.id.TextId);
+        send = findViewById(R.id.send);
 
         Log.d("demo22", String.valueOf(dbLike) +  wordId);
 
@@ -42,6 +46,24 @@ public class MainActivity2 extends AppCompatActivity {
 
         wordId.setText(word);
         translateId.setText(translate);
+
+
+
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,  "Lug'at so'zi " + word + "\n" + "ma'nosi " + translate);
+                intent.setType("text/plain");
+//                    if(intent.resolveActivity(getPackageManager()) !=null){
+                startActivity(intent);
+//                    }
+            }
+        });
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
