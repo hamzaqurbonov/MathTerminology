@@ -145,7 +145,7 @@ public class MainFragment extends Fragment {
 
         FirebaseRecyclerOptions<model> options =
                 new FirebaseRecyclerOptions.Builder<model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology").orderByChild("word").startAt(s).endAt(s + "\uf8ff") ,model.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology").orderByChild("word").startAt(s.toLowerCase()).endAt(s.toLowerCase() + "\uf8ff") ,model.class)
                         .build();
         adapter = new myadapter(options);
         adapter.startListening();
