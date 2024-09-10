@@ -55,7 +55,7 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT,  "Lug'at so'zi " + word + "\n" + "ma'nosi " + translate);
+                intent.putExtra(Intent.EXTRA_TEXT,  "Lug'at so'zi: " + word + "\n" + "Tarjimasi: " + translate);
                 intent.setType("text/plain");
 //                    if(intent.resolveActivity(getPackageManager()) !=null){
                 startActivity(intent);

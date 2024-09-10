@@ -6,21 +6,25 @@
         android:id="@+id/nav_main"
         android:orderInCategory="1"
         android:title="ASOSIY"
+        android:icon="@drawable/baseline_add_circle_24"
         />
 
     <item
         android:id="@+id/nav_live"
         android:orderInCategory="2"
-        android:title="KO'RILGAN" />
+        android:title="KO'RILGAN"
+        android:icon="@drawable/baseline_arrow_circle_up_24"/>
 
     <item
         android:id="@+id/nav_like"
         android:orderInCategory="3"
-        android:title="SAQLANGAN" />
+        android:title="SAQLANGAN"
+        android:icon="@drawable/baseline_favorite_border_24"/>
 
     <item
         android:id="@+id/share_send"
         android:orderInCategory="4"
-        android:title="SHARE SEND" />
+        android:title="SHARE SEND"
+        android:icon="@drawable/baseline_add_link_24"/>
 
 </menu>
