@@ -5,26 +5,26 @@
     <item
         android:id="@+id/nav_main"
         android:orderInCategory="1"
-        android:title="ASOSIY"
-        android:icon="@drawable/deployed_code_24px"
+        android:title="Main"
+        android:icon="@drawable/house_24px"
         />
 
     <item
         android:id="@+id/nav_live"
         android:orderInCategory="2"
-        android:title="KO'RILGAN"
+        android:title="History"
         android:icon="@drawable/visibility_24px"/>
 
     <item
         android:id="@+id/nav_like"
         android:orderInCategory="3"
-        android:title="SAQLANGAN"
+        android:title="Saved"
         android:icon="@drawable/baseline_favorite_border_24"/>
 
     <item
         android:id="@+id/share_send"
         android:orderInCategory="4"
-        android:title="SHARE SEND"
+        android:title="Share"
         android:icon="@drawable/share_24px"/>
 
 </menu>

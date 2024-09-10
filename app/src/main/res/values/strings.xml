@@ -2,4 +2,12 @@
     <string name="app_name">Math terminology</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello">
+        The dictionary contains over 1, 500 common Math terms in English and Uzbek. The aim of dictionary is to support Math learners simply find meaning of words and understand mathematical operations.
+        The content of dictionary is  developed by Husniya Kurbanova, PhD student at Gulistan State university. The author mainly used "Russian-English Mathematical dictionary" compiled by Ya. I. Mishiev (1999) , "Matematikadan ruscha-o'zbekcha lug'at" by S.F.Akobirov and "Dictionary of Mathemics terms" by Douglas Downing to collect English base.</string>
+    <string name="hello_2">The content of dictionary is  developed by Husniya Kurbanova, PhD student at Gulistan State university. The author mainly used "Russian-English Mathematical dictionary" compiled by Ya. I. Mishiev to collect English base</string>
+    <string name="hello_3">
+        Mazkur elektron lug`at ingliz va o`zbek tillaridagi 1,500 dan ortiq atamalarni o`z ichiga olgan. Lug`atni tuzishdan maqsad matematika fani o`rganuvchilariga so`zlar manosini topishda va matematik amallarni tushunishda qulaylik yaratish.
+        Lug`at kontenti Guliston davlat universiteti tayanch doktoranti Husniya Kurbanova tomonidan tuzib chiqildi. Muallif ingliz tilidagi matematik terminlarni to`plashda Ya.I.Mishiev tomonidan yaratilgan "Rus-Inglzi matematik terminlar" lug`atidan foydalandi
+    </string>
 </resources>

@@ -17,6 +17,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
+import android.os.Handler;
+import android.os.Looper;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -24,12 +27,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
+        // Dastlab fragmentni 5 soniyaga ko'rsatish
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
+                bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+                // 5 soniyadan keyin asosiy fragmentni ko'rsatish
+                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
+            }
+        }, 7000); // 5000 millisekund = 5 soniya
     }
 
-    private  final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
 
         Fragment selectedFragment = null;
         int itemId = item.getItemId();
@@ -39,21 +50,18 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_live) {
             selectedFragment = new HistoryFragment();
 
-        }else if (itemId == R.id.nav_like) {
+        } else if (itemId == R.id.nav_like) {
             selectedFragment = new LikeFragment();
 
-        }
-        else if (itemId == R.id.share_send) {
+        } else if (itemId == R.id.share_send) {
             findViewById(R.id.share_send).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
-                    intent.putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=NCLQDpykaw0");
+                    intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/6");
                     intent.setType("text/plain");
-//                    if(intent.resolveActivity(getPackageManager()) !=null){
-                        startActivity(intent);
-//                    }
+                    startActivity(intent);
                 }
             });
         }
@@ -63,4 +71,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     };
+
 }

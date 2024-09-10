@@ -4,6 +4,7 @@
                                  <!--        parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge"-->
         <!-- Customize your light theme here. -->
 <!--         <item name="colorPrimary">@color/purple_500</item> -->
+        <item name="actionMenuTextColor">@color/white</item>
     </style>
 
     <style name="Theme.MathTerminology" parent="Base.Theme.MathTerminology" />

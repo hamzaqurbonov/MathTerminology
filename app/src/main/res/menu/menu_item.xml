@@ -5,5 +5,7 @@
 
         android:title="Search Data"
         app:showAsAction="always"
-        app:actionViewClass="android.widget.SearchView"/>
+        app:actionViewClass="android.widget.SearchView"
+
+        android:icon="@drawable/baseline_add_circle_24"/>
 </menu>
