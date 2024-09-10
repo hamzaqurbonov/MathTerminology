@@ -111,7 +111,8 @@
             android:layout_marginBottom="9dp"
             android:layout_toStartOf="@+id/imageView"
             android:onClick="buttonLike"
-            android:src="@drawable/baseline_add_link_24" />
+            app:itemIconTint="@color/white"
+            android:src="@drawable/share_reviews_24px" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -123,6 +124,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
             android:onClick="buttonLike"
+            app:itemIconTint="@color/white"
             android:src="@drawable/baseline_favorite_border_24" />
 
     </RelativeLayout>

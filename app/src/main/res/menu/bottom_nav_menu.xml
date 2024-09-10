@@ -6,14 +6,14 @@
         android:id="@+id/nav_main"
         android:orderInCategory="1"
         android:title="ASOSIY"
-        android:icon="@drawable/baseline_add_circle_24"
+        android:icon="@drawable/deployed_code_24px"
         />
 
     <item
         android:id="@+id/nav_live"
         android:orderInCategory="2"
         android:title="KO'RILGAN"
-        android:icon="@drawable/baseline_arrow_circle_up_24"/>
+        android:icon="@drawable/visibility_24px"/>
 
     <item
         android:id="@+id/nav_like"
@@ -25,6 +25,6 @@
         android:id="@+id/share_send"
         android:orderInCategory="4"
         android:title="SHARE SEND"
-        android:icon="@drawable/baseline_add_link_24"/>
+        android:icon="@drawable/share_24px"/>
 
 </menu>
