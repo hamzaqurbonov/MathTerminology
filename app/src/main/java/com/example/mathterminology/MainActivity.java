@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 // 5 soniyadan keyin asosiy fragmentni ko'rsatish
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
             }
-        }, 7000); // 5000 millisekund = 5 soniya
+        }, 1000); // 5000 millisekund = 5 soniya
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {

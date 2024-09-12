@@ -20,11 +20,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
@@ -34,42 +39,146 @@ public class MainFragment extends Fragment {
     MenuItem menuItem;
     SearchView searchView;
     Toolbar toolbar;
+    ProgressBar progressBar;
+
+    boolean isLoading = false; // Юклаш жараёни учун
+    String lastKey = null; // Pagination учун охирги элемент калити
+
+    FirebaseRecyclerOptions<model> options;
+    Query query;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =    inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-//        swipeRefreshLayout = view. findViewById(R.id.swipeRefreshLayout);
-
-        toolbar = view.findViewById( R.id.toolbar );
-
+        toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar( toolbar );
+        activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setTitle("");
 
         rview = view.findViewById(R.id.rview);
-//        swipeRefresh();
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        progressBar = view.findViewById(R.id.progressBar);
+
         setUpRecyclerView();
+        setUpSwipeRefresh();
 
         return view;
     }
 
-    public void swipeRefresh(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    private void setUpRecyclerView() {
+
+
+        FirebaseRecyclerOptions<model> searchOptions =
+                new FirebaseRecyclerOptions.Builder<model>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology").limitToFirst(50), model.class)
+                        .build();
+        adapter = new myadapter(searchOptions);
+        rview.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.startListening();
+        rview.setAdapter(adapter);
+
+
+
+
+//
+//        query = FirebaseDatabase.getInstance().getReference().child("mathterminology")
+//                .orderByChild("word").limitToFirst(50); // Илк 50та элементни юклаш
+//
+//        options = new FirebaseRecyclerOptions.Builder<model>()
+//                .setQuery(query, model.class)
+//                .build();
+//
+//        adapter = new myadapter(options);
+//        rview.setAdapter(adapter);
+
+        // Кейинги маълумотларни юклаш учун скроллинг кузатувчиси
+        rview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-                rview.setLayoutManager(new LinearLayoutManager(getContext()));
-                FirebaseRecyclerOptions<model> options =
-                        new FirebaseRecyclerOptions.Builder<model>()
-                                .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology"), model.class)
-                                .build();
-                adapter = new myadapter(options);
-                rview.setAdapter(adapter);
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (!isLoading && linearLayoutManager != null &&
+                        linearLayoutManager.findLastVisibleItemPosition() == adapter.getItemCount() - 1) {
+                    loadMoreData(); // Кейинги маълумотларни юклаш
+                }
+            }
+        });
+
+        adapter.setItemClickListner(new myadapter.OnItemClickListner() {
+            @Override
+            public void onItemClick(DataSnapshot documentSnapshot, int position) {
+                String getWord = adapter.getItem(position).getWord();
+                String getTranslate = adapter.getItem(position).getTranslate();
+
+                Intent intent = new Intent(getContext(), MainActivity2.class);
+                intent.putExtra("word", getWord);
+                intent.putExtra("translate", getTranslate);
+
+                dbHistory.addNewCourse(getWord, getTranslate);
+                startActivity(intent);
             }
         });
     }
 
+    private void loadMoreData() {
+        isLoading = true;
+        progressBar.setVisibility(View.VISIBLE);
+
+
+        Query newQuery = FirebaseDatabase.getInstance().getReference().child("mathterminology")
+                .orderByChild("word")
+                .startAt(lastKey) // Охирги элементдан кейинги юклаш
+                .limitToFirst(50);
+
+        newQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        // Охирги элементнинг калитини олиш
+                        lastKey = snapshot.getKey();
+
+                    }
+                    // Янги маълумотларни қўшиш учун адаптерни янгилаш
+                    FirebaseRecyclerOptions<model> newOptions = new FirebaseRecyclerOptions.Builder<model>()
+                            .setQuery(newQuery, model.class)
+                            .build();
+                    rview.getRecycledViewPool().clear();
+
+                    adapter.updateOptions(newOptions); // Адаптерга янги маълумотларни бериш
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE); // Маълумотлар юкланганда
+                    isLoading = false;
+                } else {
+                    progressBar.setVisibility(View.GONE); // Агар маълумот топилмаса
+                    isLoading = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressBar.setVisibility(View.GONE);
+                isLoading = false;
+            }
+        });
+    }
+
+    private void setUpSwipeRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                setUpRecyclerView();
+
+                // Янгидан юкланишни бошлаш
+//                setUpRecyclerView();
+                // Юкланиш тугаганда анимацияни тўхтатиш
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
 
 
@@ -91,6 +200,7 @@ public class MainFragment extends Fragment {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -102,6 +212,8 @@ public class MainFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 processSearch(newText);
                 return true;
+
+
             }
         });
         super.onCreateOptionsMenu(menu, inflater);
@@ -109,52 +221,21 @@ public class MainFragment extends Fragment {
 
 
 
-    private void setUpRecyclerView() {
-        rview.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        FirebaseRecyclerOptions<model> options =
-                new FirebaseRecyclerOptions.Builder<model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology"), model.class)
-                        .build();
-
-        adapter = new myadapter(options);
-        rview.setAdapter(adapter);
-
-        adapter.setItemClickListner(new myadapter.OnItemClickListner() {
-            @Override
-            public void onItemClick(DataSnapshot documentSnapshot, int position) {
-
-                String getWord = adapter.getItem(position).getWord();
-                String getTranslate = adapter.getItem(position).getTranslate();
-
-                Intent intent = new Intent(getContext(), MainActivity2.class);
-                intent.putExtra("word", getWord);
-                intent.putExtra("translate", getTranslate);
-
-                dbHistory.addNewCourse(getWord, getTranslate);
-
-                startActivity(intent);
-
-            }
-        });
-
-    }
-
-
     void processSearch(String s) {
-
-        FirebaseRecyclerOptions<model> options =
+        FirebaseRecyclerOptions<model> searchOptions =
                 new FirebaseRecyclerOptions.Builder<model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology").orderByChild("word").startAt(s.toLowerCase()).endAt(s.toLowerCase() + "\uf8ff") ,model.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology")
+                                .orderByChild("word")
+                                .startAt(s.toLowerCase())
+                                .endAt(s.toLowerCase() + "\uf8ff"), model.class)
                         .build();
-        adapter = new myadapter(options);
+        adapter = new myadapter(searchOptions);
         adapter.startListening();
         rview.setAdapter(adapter);
 
         adapter.setItemClickListner(new myadapter.OnItemClickListner() {
             @Override
             public void onItemClick(DataSnapshot documentSnapshot, int position) {
-
                 String getWord = adapter.getItem(position).getWord();
                 String getTranslate = adapter.getItem(position).getTranslate();
 
@@ -162,7 +243,6 @@ public class MainFragment extends Fragment {
                 intent.putExtra("word", getWord);
                 intent.putExtra("translate", getTranslate);
                 startActivity(intent);
-
             }
         });
     }
@@ -179,8 +259,5 @@ public class MainFragment extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-
     }
-
-
 }
