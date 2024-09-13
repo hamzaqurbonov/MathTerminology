@@ -28,6 +28,7 @@ public class myadapter extends FirebaseRecyclerAdapter<model,myadapter.myviewhol
     protected void onBindViewHolder(@NonNull myviewholder holder, int position, @NonNull model model)
     {
         holder.name.setText(model.getWord());
+
     }
 
     @NonNull

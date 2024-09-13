@@ -1,5 +1,7 @@
 package com.example.mathterminology;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,30 +70,19 @@ public class MainFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-
-
+//        isLoading = true;
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseRecyclerOptions<model> searchOptions =
                 new FirebaseRecyclerOptions.Builder<model>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("mathterminology").limitToFirst(50), model.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference()
+                                .child("mathterminology")
+                                .limitToFirst(100), model.class)
                         .build();
+        Log.d("demo41", "onDataChange1:  " + lastKey);
         adapter = new myadapter(searchOptions);
         rview.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.startListening();
         rview.setAdapter(adapter);
-
-
-
-
-//
-//        query = FirebaseDatabase.getInstance().getReference().child("mathterminology")
-//                .orderByChild("word").limitToFirst(50); // Илк 50та элементни юклаш
-//
-//        options = new FirebaseRecyclerOptions.Builder<model>()
-//                .setQuery(query, model.class)
-//                .build();
-//
-//        adapter = new myadapter(options);
-//        rview.setAdapter(adapter);
 
         // Кейинги маълумотларни юклаш учун скроллинг кузатувчиси
         rview.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -99,6 +91,7 @@ public class MainFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                progressBar.setVisibility(View.GONE);
                 if (!isLoading && linearLayoutManager != null &&
                         linearLayoutManager.findLastVisibleItemPosition() == adapter.getItemCount() - 1) {
                     loadMoreData(); // Кейинги маълумотларни юклаш
@@ -126,11 +119,7 @@ public class MainFragment extends Fragment {
         isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
 
-
-        Query newQuery = FirebaseDatabase.getInstance().getReference().child("mathterminology")
-                .orderByChild("word")
-                .startAt(lastKey) // Охирги элементдан кейинги юклаш
-                .limitToFirst(50);
+        Query newQuery = FirebaseDatabase.getInstance().getReference().child("mathterminology").startAt(lastKey);
 
         newQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -139,6 +128,7 @@ public class MainFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         // Охирги элементнинг калитини олиш
                         lastKey = snapshot.getKey();
+                        Log.d("demo41", "onDataChange2:  " + lastKey);
 
                     }
                     // Янги маълумотларни қўшиш учун адаптерни янгилаш
@@ -170,7 +160,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onRefresh() {
 
-                setUpRecyclerView();
+//                setUpRecyclerView();
+                loadMoreData();
 
                 // Янгидан юкланишни бошлаш
 //                setUpRecyclerView();
@@ -179,8 +170,6 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -218,8 +207,6 @@ public class MainFragment extends Fragment {
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
 
     void processSearch(String s) {
         FirebaseRecyclerOptions<model> searchOptions =
