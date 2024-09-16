@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 // 5 soniyadan keyin asosiy fragmentni ko'rsatish
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
             }
-        }, 1000); // 5000 millisekund = 5 soniya
+        }, 15000); // 5000 millisekund = 5 soniya
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
@@ -54,16 +54,12 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new LikeFragment();
 
         } else if (itemId == R.id.share_send) {
-            findViewById(R.id.share_send).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/6");
-                    intent.setType("text/plain");
-                    startActivity(intent);
-                }
-            });
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/7");
+            intent.setType("text/plain");
+            startActivity(intent);
         }
 
         if (selectedFragment != null) {

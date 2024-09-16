@@ -288,10 +288,63 @@ public class MainFragment extends Fragment {
                 String getWord = adapter.getItem(position).getWord();
                 String getTranslate = adapter.getItem(position).getTranslate();
 
-                Intent intent = new Intent(getContext(), MainActivity2.class);
-                intent.putExtra("word", getWord);
-                intent.putExtra("translate", getTranslate);
-                startActivity(intent);
+                dbHistory.addNewCourse(getWord, getTranslate);
+
+                //  AlertDialog --------
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View dialogView = inflater.inflate(R.layout.layout_dialog, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(dialogView);
+
+                TextView titleTextView = dialogView.findViewById(R.id.textViewTitle);
+                TextView messageTextView = dialogView.findViewById(R.id.textViewMessage);
+                ImageView positiveButton = dialogView.findViewById(R.id.positiveButton);
+                ImageView negativeButton = dialogView.findViewById(R.id.negativeButton);
+                ImageView neutralButton = dialogView.findViewById(R.id.neutralButton);
+
+                titleTextView.setText(getWord);
+                messageTextView.setText(getTranslate);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dbLike.addNewCourse(getWord, getTranslate);
+                        dialog.dismiss();
+                        Toast.makeText(getContext(), "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                negativeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                neutralButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT,  "Lug'at so'zi: " + getWord + "\n" + "Tarjimasi: " + getTranslate);
+                        intent.setType("text/plain");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+
+
+                Window window = dialog.getWindow();
+                if (window != null) {
+                    WindowManager.LayoutParams layoutParams = window.getAttributes();
+//                    layoutParams.gravity = Gravity.BOTTOM;  // Экраннинг пастки қисмига жойлаштириш
+//                    layoutParams.gravity = Gravity.TOP; // Экраннинг юқори қисмига жойлаштириш
+//                    layoutParams.y = 100;  // Пикселларда пастдан юқори ёки тепадан пастга суриш
+//                    dialog.getWindow().setLayout(1000, 1000);  // dialog Ҳажмини катта қилиш
+                    window.setAttributes(layoutParams);
+                }
             }
         });
     }

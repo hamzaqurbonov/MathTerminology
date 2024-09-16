@@ -123,9 +123,9 @@ public class LikeFragment extends Fragment {
                 dbLike.deleteAllData();
                 Toast.makeText(getContext(),  "Barcha matin o'chirildi!", Toast.LENGTH_SHORT).show();
                 //Refresh Activity
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
-
+//                Intent intent = new Intent(getContext(), MainActivity.class);
+//                startActivity(intent);
+                RearrangeItems();
 //                finish();
             }
         });
