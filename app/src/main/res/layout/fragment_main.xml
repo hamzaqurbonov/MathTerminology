@@ -24,7 +24,7 @@
             android:scrollbars="vertical"
             android:fadeScrollbars="true"
             android:scrollbarThumbVertical="@drawable/square_24px"
-            android:scrollbarTrackVertical="@drawable/fit_width_24px"
+
             />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

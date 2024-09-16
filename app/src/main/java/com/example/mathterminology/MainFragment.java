@@ -1,7 +1,7 @@
 package com.example.mathterminology;
 
-import static android.content.ContentValues.TAG;
-
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -17,15 +17,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainFragment extends Fragment {
+    DbLike dbLike;
     SwipeRefreshLayout swipeRefreshLayout;
     DbHistory dbHistory;
     RecyclerView rview;
@@ -44,6 +51,7 @@ public class MainFragment extends Fragment {
     Toolbar toolbar;
     ProgressBar progressBar;
 
+    String getWord, getTranslate;
     boolean isLoading = false; // Юклаш жараёни учун
     String lastKey = null; // Pagination учун охирги элемент калити
 
@@ -62,6 +70,8 @@ public class MainFragment extends Fragment {
         rview = view.findViewById(R.id.rview);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         progressBar = view.findViewById(R.id.progressBar);
+
+        dbLike = new DbLike(getContext());
 
         setUpRecyclerView();
         setUpSwipeRefresh();
@@ -105,12 +115,64 @@ public class MainFragment extends Fragment {
                 String getWord = adapter.getItem(position).getWord();
                 String getTranslate = adapter.getItem(position).getTranslate();
 
-                Intent intent = new Intent(getContext(), MainActivity2.class);
-                intent.putExtra("word", getWord);
-                intent.putExtra("translate", getTranslate);
-
                 dbHistory.addNewCourse(getWord, getTranslate);
-                startActivity(intent);
+
+                //  AlertDialog --------
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View dialogView = inflater.inflate(R.layout.layout_dialog, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(dialogView);
+
+                TextView titleTextView = dialogView.findViewById(R.id.textViewTitle);
+                TextView messageTextView = dialogView.findViewById(R.id.textViewMessage);
+                ImageView positiveButton = dialogView.findViewById(R.id.positiveButton);
+                ImageView negativeButton = dialogView.findViewById(R.id.negativeButton);
+                ImageView neutralButton = dialogView.findViewById(R.id.neutralButton);
+
+                titleTextView.setText(getWord);
+                messageTextView.setText(getTranslate);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dbLike.addNewCourse(getWord, getTranslate);
+                        dialog.dismiss();
+                        Toast.makeText(getContext(), "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                negativeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                neutralButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT,  "Lug'at so'zi: " + getWord + "\n" + "Tarjimasi: " + getTranslate);
+                        intent.setType("text/plain");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+
+
+                Window window = dialog.getWindow();
+                if (window != null) {
+                    WindowManager.LayoutParams layoutParams = window.getAttributes();
+//                    layoutParams.gravity = Gravity.BOTTOM;  // Экраннинг пастки қисмига жойлаштириш
+//                    layoutParams.gravity = Gravity.TOP; // Экраннинг юқори қисмига жойлаштириш
+//                    layoutParams.y = 100;  // Пикселларда пастдан юқори ёки тепадан пастга суриш
+//                    dialog.getWindow().setLayout(1000, 1000);  // dialog Ҳажмини катта қилиш
+                    window.setAttributes(layoutParams);
+                }
+
             }
         });
     }
@@ -234,6 +296,12 @@ public class MainFragment extends Fragment {
         });
     }
 
+   private void alertDialog() {
+
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onStart() {
         super.onStart();
