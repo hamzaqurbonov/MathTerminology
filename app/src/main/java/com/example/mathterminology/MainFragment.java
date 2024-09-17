@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -78,6 +80,45 @@ public class MainFragment extends Fragment {
 
         return view;
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+        dbHistory = new DbHistory(getContext());
+
+//      Иловадан чиқишни истайсизми функцияси
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Огоҳлантириш ойнасини қуриш
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setMessage("Иловадан чиқишни истайсизми?");
+                builder.setCancelable(true);
+
+                // "Ҳа" тугмасини ёзиш
+                builder.setPositiveButton("Ҳа", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requireActivity().finish();
+                    }
+                });
+
+                // "Йўқ" тугмасини ёзиш
+                builder.setNegativeButton("Йўқ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Огоҳлантиришни кўрсатиш
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+
+    }
+
 
     private void setUpRecyclerView() {
 //        isLoading = true;
@@ -162,7 +203,6 @@ public class MainFragment extends Fragment {
                     }
                 });
 
-
                 Window window = dialog.getWindow();
                 if (window != null) {
                     WindowManager.LayoutParams layoutParams = window.getAttributes();
@@ -232,14 +272,6 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-        dbHistory = new DbHistory(getContext());
-    }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_item,menu);
@@ -348,12 +380,6 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
-   private void alertDialog() {
-
-    }
-
-
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onStart() {

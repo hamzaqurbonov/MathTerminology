@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -27,17 +28,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button button = findViewById(R.id.next_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
+                button.setVisibility(View.GONE);
+            }
+        });
         // Dastlab fragmentni 5 soniyaga ko'rsatish
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
-
+                button.setVisibility(View.GONE);
                 // 5 soniyadan keyin asosiy fragmentni ko'rsatish
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
             }
         }, 15000); // 5000 millisekund = 5 soniya
+
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
@@ -57,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/7");
+            intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/9");
             intent.setType("text/plain");
             startActivity(intent);
         }
@@ -67,5 +78,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     };
+
+
+
+
 
 }
