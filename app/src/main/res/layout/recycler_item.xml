@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18dp"
-            android:textColor="#1E7EC1"
+            android:textColor="@color/purple_500"
             android:padding="10dp"
             android:text="Course Tracks"
             android:orientation="vertical"
@@ -34,6 +34,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
+            app:itemIconTint="@color/purple_500"
             android:src="@drawable/baseline_arrow_right_24"
             android:layout_gravity="center"/>
 

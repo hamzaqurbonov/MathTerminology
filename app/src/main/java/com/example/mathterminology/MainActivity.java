@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +23,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 public class MainActivity extends AppCompatActivity {
-
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
                 button.setVisibility(View.GONE);
             }
+
         });
         // Dastlab fragmentni 5 soniyaga ko'rsatish
         new Handler().postDelayed(new Runnable() {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 // 5 soniyadan keyin asosiy fragmentni ko'rsatish
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
             }
-        }, 15000); // 5000 millisekund = 5 soniya
+        }, 12000 ); // 5000 millisekund = 5 soniya
 
     }
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/9");
+            intent.putExtra(Intent.EXTRA_TEXT, "https://t.me/Mathterminology/10");
             intent.setType("text/plain");
             startActivity(intent);
         }

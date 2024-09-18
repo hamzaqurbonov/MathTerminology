@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:padding="4dp"
             android:text="Word"
-            android:textColor="#1E7EC1"
+            android:textColor="@color/purple_500"
             android:textSize="17dp"
             android:textStyle="bold"
             />
