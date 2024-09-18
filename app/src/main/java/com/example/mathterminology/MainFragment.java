@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -92,11 +93,11 @@ public class MainFragment extends Fragment {
             public void handleOnBackPressed() {
                 // Огоҳлантириш ойнасини қуриш
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setMessage("Иловадан чиқишни истайсизми?");
+                builder.setMessage("Will you leave the app?");
                 builder.setCancelable(true);
 
                 // "Ҳа" тугмасини ёзиш
-                builder.setPositiveButton("Ҳа", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         requireActivity().finish();
@@ -104,7 +105,7 @@ public class MainFragment extends Fragment {
                 });
 
                 // "Йўқ" тугмасини ёзиш
-                builder.setNegativeButton("Йўқ", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -181,7 +182,7 @@ public class MainFragment extends Fragment {
                     public void onClick(View view) {
                         dbLike.addNewCourse(getWord, getTranslate);
                         dialog.dismiss();
-                        Toast.makeText(getContext(), "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Text saved!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -230,7 +231,7 @@ public class MainFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         // Охирги элементнинг калитини олиш
                         lastKey = snapshot.getKey();
-                        Log.d("demo41", "onDataChange2:  " + lastKey);
+//                        Log.d("demo41", "onDataChange2:  " + lastKey);
 
                     }
                     // Янги маълумотларни қўшиш учун адаптерни янгилаш
@@ -277,8 +278,8 @@ public class MainFragment extends Fragment {
         inflater.inflate(R.menu.menu_item,menu);
         menuItem = menu.findItem(R.id.search_1);
         searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setIconified(true);
-        searchView.setQueryHint("Qidiruv");
+//        searchView.setQueryHint("Search");
+        searchView.setQueryHint(Html.fromHtml("<font color =\"#FFFFFF\" >Search</font>"));
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));

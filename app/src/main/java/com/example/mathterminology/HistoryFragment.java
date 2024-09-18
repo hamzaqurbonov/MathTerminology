@@ -110,14 +110,14 @@ public class HistoryFragment extends Fragment {
 
     public void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Matinni o'chirish");
-        builder.setMessage("Barcha matinni o'chirishni istaysizmi?");
-        builder.setPositiveButton("Ha", new DialogInterface.OnClickListener() {
+        builder.setTitle("Delete text");
+        builder.setMessage("Will you delete all words?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 //                DBHandler myDB = new DBHandler(ViewCourses.this);
                 dbHistory.deleteAllData();
-                Toast.makeText(getContext(),  "Barcha matin o'chirildi!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),  "All words deleted!", Toast.LENGTH_SHORT).show();
                 //Refresh Activity
 //                Intent intent = new Intent(getContext(), MainActivity.class);
 //                startActivity(intent);
@@ -125,7 +125,7 @@ public class HistoryFragment extends Fragment {
 //                finish();
             }
         });
-        builder.setNegativeButton("Yo'q", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

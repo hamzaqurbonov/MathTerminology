@@ -59,7 +59,7 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         public void onClick(View v) {
             dbHistory.deleteSelect(Integer.toString(modal.getId()));
 
-            Toast.makeText(v.getContext(), "Matin o'chirildi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), "Delete text!", Toast.LENGTH_SHORT).show();
             Refresh(dbHistory.readCourses());
         }
 

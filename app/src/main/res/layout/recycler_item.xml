@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18dp"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/black"
             android:padding="10dp"
             android:text="Course Tracks"
             android:orientation="vertical"
