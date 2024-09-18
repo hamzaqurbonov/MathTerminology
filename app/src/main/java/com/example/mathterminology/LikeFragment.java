@@ -114,7 +114,7 @@ public class LikeFragment extends Fragment {
 
     public void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Delete text");
+        builder.setTitle("Delete text!");
         builder.setMessage("Will you delete all words?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
