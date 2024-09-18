@@ -43,7 +43,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder> {
             public void onClick(View v) {
                 dbLike.deleteSelect(Integer.toString(lakeModel.getId()));
 
-                Toast.makeText(v.getContext(), "Delete text!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Text deleted!", Toast.LENGTH_SHORT).show();
                 Refresh(dbLike.readCourses());
             }
 
