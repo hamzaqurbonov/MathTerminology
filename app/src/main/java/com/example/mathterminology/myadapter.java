@@ -17,54 +17,54 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.google.firebase.database.DataSnapshot;
 
-public class myadapter extends FirebaseRecyclerAdapter<model,myadapter.myviewholder>{
-
-    private OnItemClickListner listner;
-    public myadapter(@NonNull FirebaseRecyclerOptions<model> options) {
-        super(options);
-    }
-
-    @Override
-    protected void onBindViewHolder(@NonNull myviewholder holder, int position, @NonNull model model)
-    {
-        holder.name.setText(model.getWord());
-
-    }
-
-    @NonNull
-    @Override
-    public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item,parent,false);
-        return new myviewholder(view);
-    }
-
-    class myviewholder extends RecyclerView.ViewHolder
-    {
-        CircleImageView img;
-        TextView name,course,email;
-        public myviewholder(@NonNull View itemView)
-        {
-            super(itemView);
-//            img=(CircleImageView)itemView.findViewById(R.id.img1);
-            name=(TextView)itemView.findViewById(R.id.nametext);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listner != null) {
-                        listner.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
-                }
-            });
-        }
-    }
-
-    public interface OnItemClickListner {
-        void onItemClick(DataSnapshot documentSnapshot, int position);
-    }
-    public void setItemClickListner(OnItemClickListner listner) {
-        this.listner = listner;
-    }
-}
+//public class myadapter extends FirebaseRecyclerAdapter<model,myadapter.myviewholder>{
+//
+//    private OnItemClickListner listner;
+//    public myadapter(@NonNull FirebaseRecyclerOptions<model> options) {
+//        super(options);
+//    }
+//
+//    @Override
+//    protected void onBindViewHolder(@NonNull myviewholder holder, int position, @NonNull model model)
+//    {
+//        holder.name.setText(model.getWord());
+//
+//    }
+//
+//    @NonNull
+//    @Override
+//    public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+//    {
+//        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item,parent,false);
+//        return new myviewholder(view);
+//    }
+//
+//    class myviewholder extends RecyclerView.ViewHolder
+//    {
+//        CircleImageView img;
+//        TextView name,course,email;
+//        public myviewholder(@NonNull View itemView)
+//        {
+//            super(itemView);
+////            img=(CircleImageView)itemView.findViewById(R.id.img1);
+//            name=(TextView)itemView.findViewById(R.id.nametext);
+//
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//                    if (position != RecyclerView.NO_POSITION && listner != null) {
+//                        listner.onItemClick(getSnapshots().getSnapshot(position), position);
+//                    }
+//                }
+//            });
+//        }
+//    }
+//
+//    public interface OnItemClickListner {
+//        void onItemClick(DataSnapshot documentSnapshot, int position);
+//    }
+//    public void setItemClickListner(OnItemClickListner listner) {
+//        this.listner = listner;
+//    }
+//}

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 // 5 soniyadan keyin asosiy fragmentni ko'rsatish
                 getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
             }
-        }, 12000 ); // 5000 millisekund = 5 soniya
+        }, 100 ); // 5000 millisekund = 5 soniya
 
     }
 
