@@ -39,45 +39,174 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 public class MainFragment extends Fragment {
-
-
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("mathterminology");
     private ArrayList<MainFragmentModel> modalArrayList;
     private DBMainFragment dbMainFragment;
-    private DBMainFragmentAdapter dbMainFragmentAdapter;
+    private DBMainFragmentAdapter adapter;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    Toolbar toolbar;
+    MenuItem menuItem;
+    SearchView searchView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.rview);
         dbMainFragment = new DBMainFragment(getActivity());
-        dbMainFragment.addNewCourse("getWord", "getTranslate");
+
+        toolbar = view.findViewById(R.id.toolbar);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setTitle("");
+
+
         modalArrayList = new ArrayList<>();
-
-
-        modalArrayList = dbMainFragment.readCourses();
-
-        dbMainFragmentAdapter = new DBMainFragmentAdapter(modalArrayList, getActivity());
+        modalArrayList = dbMainFragment.readCourses(); // SQLite маълумотларини ўқиш
+        adapter = new DBMainFragmentAdapter(modalArrayList, getActivity()); // Адаптерга тайинлаш
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
 
-        recyclerView.setAdapter(dbMainFragmentAdapter);
-
-
+        Collection(); // Коллекция текшириш ва қўшиш
 
         return view;
+    }
+
+        @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+//        dbHistory = new DbHistory(getContext());
+
+//      Иловадан чиқишни истайсизми функцияси
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Огоҳлантириш ойнасини қуриш
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setMessage("Will you leave the app?");
+                builder.setCancelable(true);
+
+                // "Ҳа" тугмасини ёзиш
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requireActivity().finish();
+                    }
+                });
+
+                // "Йўқ" тугмасини ёзиш
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Огоҳлантиришни кўрсатиш
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+
+    }
+
+    private void Collection() {
+
+        if (modalArrayList.isEmpty()) { // Агар маълумот йўқ бўлса
+            progressBar.setVisibility(View.VISIBLE);
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String word = snapshot.child("word").getValue(String.class);
+                        String translate = snapshot.child("translate").getValue(String.class);
+
+                        // Янги маълумотларни базага қўшиш
+                        dbMainFragment.addNewCourse(word, translate);
+                    }
+
+                    // Янги маълумотларни ўқиш ва адаптерни янгилаш
+                    modalArrayList.clear(); // Аввалги маълумотларни тозалаш
+                    modalArrayList.addAll(dbMainFragment.readCourses()); // Янгилари билан алмаштириш
+                    progressBar.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged(); // Адаптерга янгиланишни билдириш
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e("FirebaseError", databaseError.getMessage());
+                }
+            });
+        }
+    }
+        @Override
+        public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_item, menu);
+        menuItem = menu.findItem(R.id.search_1);
+        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setQueryHint(Html.fromHtml("<font color =\"#FFFFFF\" >Search</font>"));
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                processSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                newText = newText.toLowerCase();
+                Log.d("demo43", "onDataChange1");
+                processSearch(newText);
+
+                return true;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void processSearch(String query) {
+
+        // Яратилган маълумотлар базаси билан боғланиш
+        modalArrayList.clear(); // Мавжуд рўйхатни тозалаш
+        modalArrayList = dbMainFragment.searchCourses(query); // Базадан қидирув натижасини олиш
+        Log.d("demo44", "onDataChange2 " + query + " " + modalArrayList);
+        if (modalArrayList.size() > 0) {
+            Log.d("demo44", "onDataChange4 " + query + " " + modalArrayList);
+            // Натижаларни адаптерга узатиш ва янгилаш
+            adapter.notifyDataSetChanged();
+
+
+            adapter = new DBMainFragmentAdapter(modalArrayList, getActivity());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setAdapter(adapter);
+
+        } else {
+            // Агар натижа топилмаса, рўйхат тозаланади
+            modalArrayList.clear();
+            adapter.notifyDataSetChanged();
+            Toast.makeText(getActivity(), "No results found", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

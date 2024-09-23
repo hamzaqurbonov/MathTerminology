@@ -38,7 +38,7 @@ public class DBMainFragmentAdapter  extends RecyclerView.Adapter<DBMainFragmentA
     public void onBindViewHolder(@NonNull DBMainFragmentAdapter.ViewHolder holder, int position) {
         MainFragmentModel modal = мodalArrayList.get(position);
         holder.courseTracksTV.setText(modal.getCourseTracks());
-        holder.courseIdTest.setText(modal.getCourseTest());
+//        holder.courseIdTest.setText(modal.getCourseTest());
 //        holder.idTebel.setText(Integer.toString(modal.getId()));
 
 
