@@ -52,6 +52,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("mathterminology");
     private ArrayList<MainFragmentModel> modalArrayList;
+    SwipeRefreshLayout swipeRefreshLayout;
     private DBMainFragment dbMainFragment;
     private DBMainFragmentAdapter adapter;
     private RecyclerView recyclerView;
@@ -65,6 +66,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.rview);
         dbMainFragment = new DBMainFragment(getActivity());
 
@@ -74,6 +76,14 @@ public class MainFragment extends Fragment {
         activity.getSupportActionBar().setTitle("");
 
 
+
+        recyclerViewAdapter();
+        Collection(); // Коллекция текшириш ва қўшиш
+        swipeRefreshLayout();
+        return view;
+    }
+
+    private void recyclerViewAdapter() {
         modalArrayList = new ArrayList<>();
         modalArrayList = dbMainFragment.readCourses(); // SQLite маълумотларини ўқиш
         adapter = new DBMainFragmentAdapter(modalArrayList, getActivity()); // Адаптерга тайинлаш
@@ -81,11 +91,19 @@ public class MainFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-
-        Collection(); // Коллекция текшириш ва қўшиш
-
-        return view;
     }
+
+        private void swipeRefreshLayout() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recyclerViewAdapter();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+
 
         @Override
     public void onCreate(Bundle savedInstanceState) {
