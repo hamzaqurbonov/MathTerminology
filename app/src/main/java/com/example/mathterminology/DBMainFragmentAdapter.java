@@ -37,21 +37,8 @@ public class DBMainFragmentAdapter  extends RecyclerView.Adapter<DBMainFragmentA
     @Override
     public void onBindViewHolder(@NonNull DBMainFragmentAdapter.ViewHolder holder, int position) {
         MainFragmentModel modal = мodalArrayList.get(position);
-        holder.courseTracksTV.setText(modal.getCourseTracks());
-//        holder.courseIdTest.setText(modal.getCourseTest());
-//        holder.idTebel.setText(Integer.toString(modal.getId()));
+        holder.courseTracksTV.setText(modal.getWord());
 
-
-//        holder.deleteSelect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dbMainFragment.deleteSelect(Integer.toString(modal.getId()));
-//
-//                Toast.makeText(v.getContext(), "Text deleted!", Toast.LENGTH_SHORT).show();
-//                Refresh(dbMainFragment.readCourses());
-//            }
-//
-//        });
     }
 
     void Refresh(ArrayList<MainFragmentModel> events) {

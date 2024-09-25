@@ -1,5 +1,6 @@
 package com.example.mathterminology;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,8 +16,8 @@ public class DBMainFragment extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String TABLE_NAME = "mycourses";
     private static final String ID_COL = "id";
-    private static final String translate = "tracks";
-    private static final String word = "Test";
+    private static final String WORD = "word";
+    private static final String TRANSLATE = "translate";
 
     // creating a constructor for our database handler.
     public DBMainFragment(Context context) {
@@ -26,16 +27,16 @@ public class DBMainFragment extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " (" + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + translate + " TEXT,"
-                + word + " TEXT)";
+                + WORD + " TEXT,"
+                + TRANSLATE + " TEXT)";
         db.execSQL(query);
     }
-    public void addNewCourse(String courseTest, String courseTracks) {
+    public void addNewCourse(String word, String translate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 //        values.put(ID_COL, id);
-        values.put(translate, courseTracks);
-        values.put(word, courseTest);
+        values.put(WORD, word);
+        values.put(TRANSLATE, translate);
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
@@ -51,14 +52,14 @@ public class DBMainFragment extends SQLiteOpenHelper {
         if (cursorCourses.moveToFirst()) {
             do {
                 int Id = Integer.parseInt(cursorCourses.getString(0));
-                String courseTracks = cursorCourses.getString(1);
-                String courseTest = cursorCourses.getString(2);
+                String word = cursorCourses.getString(1);
+                String translate = cursorCourses.getString(2);
 //                courseModalArrayList.add(new HistoryModel(
 //                        cursorCourses.getString(1),
 //                        cursorCourses.getString(2)
 //                ));
 
-                courseModalArrayList.add(new MainFragmentModel(Id, courseTracks, courseTest));
+                courseModalArrayList.add(new MainFragmentModel(Id, word, translate));
             } while (cursorCourses.moveToNext());
         }
         cursorCourses.close();
@@ -89,23 +90,22 @@ public class DBMainFragment extends SQLiteOpenHelper {
         ArrayList<MainFragmentModel> searchList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // SQL сўрови, жадвал номи "mycourses" деб тўғрилаш
-//        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE LOWER(" + word + ") LIKE ? OR LOWER(" + translate + ") LIKE ?", new String[]{"%" + query.toLowerCase() + "%", "%" + query.toLowerCase() + "%"});
-//        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + TEST_COL1 + " = ? OR " + TRACKS_COL + " = ?", new String[]{query, query});
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + word + " LIKE ?", new String[]{"%" + query + "%"});
+        // Мос келадиган қидириш учун аниқ мослик
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + WORD + " LIKE ?", new String[]{ query.trim() + "%"});   // query.trim() пробелни йўқ қилади. "%" ўхшашларини топади
+//        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + WORD + " LIKE ?", new String[]{query.trim()});
+
         if (cursor.moveToFirst()) {
             do {
-//                Log.d("demo43", "Test: " + cursor.getString(cursor.getColumnIndex(TEST_COL1)) + ", Tracks: " + cursor.getString(cursor.getColumnIndex(TRACKS_COL)));
-                int Id = cursor.getInt(cursor.getColumnIndex(ID_COL)); // ID олиш
-                String courseTest = cursor.getString(cursor.getColumnIndex(word));
-                String courseTracks = cursor.getString(cursor.getColumnIndex(translate));
+                @SuppressLint("Range") int Id = cursor.getInt(cursor.getColumnIndex(ID_COL));
+                @SuppressLint("Range") String word = cursor.getString(cursor.getColumnIndex(WORD));
+                @SuppressLint("Range") String translate = cursor.getString(cursor.getColumnIndex(TRANSLATE));
 
-                // Натижаларни рўйхатга қўшиш
-                searchList.add(new MainFragmentModel(Id, courseTest, courseTracks));
+                searchList.add(new MainFragmentModel(Id, word, translate));
             } while (cursor.moveToNext());
         }
-        Log.d("demo43", "onDataChange3 " + query + " " + searchList );
+        Log.d("demo45", "Қидирув сўрови: " + query);
+        Log.d("demo45", "Натижалар сони: " + searchList.size());
         cursor.close();
-        return searchList; // Қидирув натижаларини қайтариш
+        return searchList;
     }
 }

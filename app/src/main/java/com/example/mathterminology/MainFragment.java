@@ -184,29 +184,21 @@ public class MainFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+
     private void processSearch(String query) {
+        modalArrayList.clear(); // Рўйхатни янги натижалар учун тозалаш
 
-        // Яратилган маълумотлар базаси билан боғланиш
-        modalArrayList.clear(); // Мавжуд рўйхатни тозалаш
-        modalArrayList = dbMainFragment.searchCourses(query); // Базадан қидирув натижасини олиш
-        Log.d("demo44", "onDataChange2 " + query + " " + modalArrayList);
-        if (modalArrayList.size() > 0) {
-            Log.d("demo44", "onDataChange4 " + query + " " + modalArrayList);
-            // Натижаларни адаптерга узатиш ва янгилаш
-            adapter.notifyDataSetChanged();
+        // Аниқ мослик қидирувини бажариш
+        modalArrayList = dbMainFragment.searchCourses(query);
 
+        Log.d("SearchResults", "Қидирув сўрови: " + query + " Натижалар сони: " + modalArrayList.size());
 
-            adapter = new DBMainFragmentAdapter(modalArrayList, getActivity());
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        adapter = new DBMainFragmentAdapter(modalArrayList, getActivity());
 
-        } else {
-            // Агар натижа топилмаса, рўйхат тозаланади
-            modalArrayList.clear();
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(), "No results found", Toast.LENGTH_SHORT).show();
-        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
 }
