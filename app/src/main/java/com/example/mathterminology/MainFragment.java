@@ -104,7 +104,7 @@ public class MainFragment extends Fragment {
     public void AlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Sync text!");
-        builder.setMessage("Янги сўзларни қўшишни истайсизми?");
+        builder.setMessage("Will you add new words?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -126,7 +126,7 @@ public class MainFragment extends Fragment {
                         modalArrayList.addAll(dbMainFragment.readCourses()); // Янгилари билан алмаштириш
                         progressBar.setVisibility(View.GONE);
                         adapter.notifyDataSetChanged(); // Адаптерга янгиланишни билдириш
-                        Toast.makeText(getContext(),  "Маълумот янгиланди!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),  "Information is updated!", Toast.LENGTH_SHORT).show();
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -316,7 +316,7 @@ public class MainFragment extends Fragment {
                     public void onClick(View view) {
                         dbLike.addNewCourse(getWord, getTranslate);
                         dialog.dismiss();
-                        Toast.makeText(getContext(), "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Text is saved!", Toast.LENGTH_SHORT).show();
                     }
                 });
 

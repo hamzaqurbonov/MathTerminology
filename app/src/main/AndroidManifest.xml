@@ -12,9 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MathTerminology"
         tools:targetApi="31">
+        <activity
+            android:name=".IntroActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="android.support.vector.drawable"
             android:value="true" />
+
         <activity
             android:name=".History"
             android:exported="false" />

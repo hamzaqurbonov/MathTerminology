@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,33 +24,44 @@ import android.os.Handler;
 import android.os.Looper;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String FIRST_TIME_KEY = "firstTime";
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.next_button);
+         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+         boolean firstTime = settings.getBoolean(FIRST_TIME_KEY, true);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
-                button.setVisibility(View.GONE);
-            }
 
-        });
+         if (firstTime) {
+             // Агар биринчи марта очилган бўлса, интро ёки маълумот экранини кўрсатиш
+             Intent intent = new Intent(this, IntroActivity.class);
+             startActivity(intent);
+             finish();
+         } else {
+             // Агар аввал очилган бўлса, тўғридан-тўғри асосий экранга ўтиш
+             setContentView(R.layout.activity_main);
+             BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
+             bottomNav.setOnNavigationItemSelectedListener(navListener);
+             getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
+         }
+
+
+
         // Dastlab fragmentni 5 soniyaga ko'rsatish
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
-                bottomNav.setOnNavigationItemSelectedListener(navListener);
-                button.setVisibility(View.GONE);
-                // 5 soniyadan keyin asosiy fragmentni ko'rsatish
-                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
-            }
-        }, 12000 ); // 5000 millisekund = 5 soniya
-
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
+//                bottomNav.setOnNavigationItemSelectedListener(navListener);
+////                button.setVisibility(View.GONE);
+//                // 5 soniyadan keyin asosiy fragmentni ko'rsatish
+//                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
+//            }
+//        }, 12000 ); // 5000 millisekund = 5 soniya
+//
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
