@@ -11,17 +11,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.orhanobut.dialogplus.OnItemClickListener;
+
 import java.util.ArrayList;
 
 public class DBMainFragmentAdapter  extends RecyclerView.Adapter<DBMainFragmentAdapter.ViewHolder>  {
 
     private Context context;
+    private OnItemClickListener listner;
     HistoryFragment historyFragment;
     DBMainFragment dbMainFragment ;
     private ArrayList<MainFragmentModel> мodalArrayList;
 
+    private OnItemClickListener listener;
 
-    public DBMainFragmentAdapter(ArrayList<MainFragmentModel> мodalArrayList, Context context) {
+
+
+    public DBMainFragmentAdapter(ArrayList<MainFragmentModel> мodalArrayList, Context context ) {
         this.мodalArrayList = мodalArrayList;
         this.context = context;
         dbMainFragment = new DBMainFragment(context);
@@ -39,6 +45,18 @@ public class DBMainFragmentAdapter  extends RecyclerView.Adapter<DBMainFragmentA
         MainFragmentModel modal = мodalArrayList.get(position);
         holder.courseTracksTV.setText(modal.getWord());
 
+
+        // Fragmentга click қилиш
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(v, position);
+                }
+            }
+        });
+
+
     }
 
     void Refresh(ArrayList<MainFragmentModel> events) {
@@ -52,7 +70,7 @@ public class DBMainFragmentAdapter  extends RecyclerView.Adapter<DBMainFragmentA
         return мodalArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder  {
         private TextView courseTracksTV, courseIdTest, idTebel;
         ImageView deleteSelect;
 
@@ -64,6 +82,16 @@ public class DBMainFragmentAdapter  extends RecyclerView.Adapter<DBMainFragmentA
             courseIdTest = itemView.findViewById(R.id.idTest);
             deleteSelect = itemView.findViewById(R.id.delete_select);
         }
+
+    }
+
+    // Fragmentга click қилиш
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 }

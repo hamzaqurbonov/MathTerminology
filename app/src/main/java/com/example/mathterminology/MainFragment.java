@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -51,15 +52,19 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("mathterminology");
+//    DBMainFragmentAdapter.OnItemClickListener  listner;
     private ArrayList<MainFragmentModel> modalArrayList;
     SwipeRefreshLayout swipeRefreshLayout;
     private DBMainFragment dbMainFragment;
+    DbHistory dbHistory;
+    DbLike dbLike;
     private DBMainFragmentAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     Toolbar toolbar;
     MenuItem menuItem;
     SearchView searchView;
+    ImageButton sync;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +73,10 @@ public class MainFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.rview);
+        sync = view.findViewById(R.id.btn_sync);
         dbMainFragment = new DBMainFragment(getActivity());
+        dbHistory = new DbHistory(getActivity());
+        dbLike = new DbLike(getActivity());
 
         toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -80,13 +88,66 @@ public class MainFragment extends Fragment {
         recyclerViewAdapter();
         Collection(); // Коллекция текшириш ва қўшиш
         swipeRefreshLayout();
+        sync();
+        AlertDialogItem();
+
         return view;
+    }
+    private void sync() {
+        sync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog();
+            }
+        });
+    }
+    public void AlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Sync text!");
+        builder.setMessage("Янги сўзларни қўшишни истайсизми?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dbMainFragment.deleteAllData();
+
+                progressBar.setVisibility(View.VISIBLE);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String word = snapshot.child("word").getValue(String.class);
+                            String translate = snapshot.child("translate").getValue(String.class);
+                            // Янги маълумотларни базага қўшиш
+                            dbMainFragment.addNewCourse(word, translate);
+                        }
+                        // Янги маълумотларни ўқиш ва адаптерни янгилаш
+                        modalArrayList.clear(); // Аввалги маълумотларни тозалаш
+                        modalArrayList.addAll(dbMainFragment.readCourses()); // Янгилари билан алмаштириш
+                        progressBar.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged(); // Адаптерга янгиланишни билдириш
+                        Toast.makeText(getContext(),  "Маълумот янгиланди!", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("FirebaseError", databaseError.getMessage());
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.create().show();
     }
 
     private void recyclerViewAdapter() {
         modalArrayList = new ArrayList<>();
         modalArrayList = dbMainFragment.readCourses(); // SQLite маълумотларини ўқиш
-        adapter = new DBMainFragmentAdapter(modalArrayList, getActivity()); // Адаптерга тайинлаш
+        adapter = new DBMainFragmentAdapter(modalArrayList,  getActivity()); // Адаптерга тайинлаш
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -217,6 +278,79 @@ public class MainFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void AlertDialogItem() {
+
+
+        adapter.setOnItemClickListener(new DBMainFragmentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                MainFragmentModel model = modalArrayList.get(position);
+                String getWord = model.getWord();
+                String getTranslate = model.getTranslate();
+
+                dbHistory.addNewCourse(getWord, getTranslate);
+
+
+
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View dialogView = inflater.inflate(R.layout.layout_dialog, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(dialogView);
+
+                TextView titleTextView = dialogView.findViewById(R.id.textViewTitle);
+                TextView messageTextView = dialogView.findViewById(R.id.textViewMessage);
+                ImageView positiveButton = dialogView.findViewById(R.id.positiveButton);
+                ImageView negativeButton = dialogView.findViewById(R.id.negativeButton);
+                ImageView neutralButton = dialogView.findViewById(R.id.neutralButton);
+
+                titleTextView.setText(getWord);
+                messageTextView.setText(getTranslate);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dbLike.addNewCourse(getWord, getTranslate);
+                        dialog.dismiss();
+                        Toast.makeText(getContext(), "Matin saqlandi!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                negativeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                neutralButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT, "Lug'at so'zi: " + getWord + "\n" + "Tarjimasi: " + getTranslate);
+                        intent.setType("text/plain");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+
+
+                Window window = dialog.getWindow();
+                if (window != null) {
+                    WindowManager.LayoutParams layoutParams = window.getAttributes();
+//                    layoutParams.gravity = Gravity.BOTTOM;  // Экраннинг пастки қисмига жойлаштириш
+//                    layoutParams.gravity = Gravity.TOP; // Экраннинг юқори қисмига жойлаштириш
+//                    layoutParams.y = 100;  // Пикселларда пастдан юқори ёки тепадан пастга суриш
+//                    dialog.getWindow().setLayout(1000, 1000);  // dialog Ҳажмини катта қилиш
+                    window.setAttributes(layoutParams);
+                }
+            }
+        });
+
     }
 
 }
