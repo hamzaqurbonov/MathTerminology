@@ -2,15 +2,17 @@
     <string name="app_name">Math terms</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Welcome">Welcome!</string>
+    <string name="Xush_kelibsiz">Xush kelibsiz!!</string>
     <string name="hello">
-    Welcome!
+
         This electronic dictionary contains approximately 1,500 Mathematical terms in English and Uzbek.
         The dictionary is compiled by Kurbanova Husniya, a PhD student at Gulistan State university
     </string>
 
     <string name="hello_2">The content of dictionary is  developed by Husniya Kurbanova, PhD student at Gulistan State university. The author mainly used "Russian-English Mathematical dictionary" compiled by Ya. I. Mishiev to collect English base</string>
     <string name="hello_3">
-    Xush kelibsiz!
+
         Mazkur mobil lug\'at ingliz va o\'zbek tillaridagi 1,500 ga yaqin matematik terminlarni o\'z ichiga olgan.
         Lug\'at Guliston davlat universiteti tayanch doktoranti Kurbanova Husniya tomonidan tuzildi.</string>
 </resources>

@@ -64,7 +64,7 @@ public class MainFragment extends Fragment {
     Toolbar toolbar;
     MenuItem menuItem;
     SearchView searchView;
-    ImageButton sync;
+    ImageButton sync, information;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class MainFragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.rview);
         sync = view.findViewById(R.id.btn_sync);
+        information = view.findViewById(R.id.information);
         dbMainFragment = new DBMainFragment(getActivity());
         dbHistory = new DbHistory(getActivity());
         dbLike = new DbLike(getActivity());
@@ -94,6 +95,13 @@ public class MainFragment extends Fragment {
         return view;
     }
     private void sync() {
+        information.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), IntroActivity.class);
+                startActivity(intent);
+            }
+        });
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
