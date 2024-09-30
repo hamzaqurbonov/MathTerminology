@@ -167,6 +167,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onRefresh() {
                 recyclerViewAdapter();
+                AlertDialogItem();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -264,7 +265,7 @@ public class MainFragment extends Fragment {
 //                newText = newText.toLowerCase();
                 Log.d("demo43", "onDataChange1");
                 processSearch(newText);
-
+                AlertDialogItem();
                 return true;
             }
         });
