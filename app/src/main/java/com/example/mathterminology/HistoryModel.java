@@ -15,16 +15,11 @@ public class HistoryModel {
     }
 
 
-    public String getCourseTracks() { return courseTracks; }
+    public String getCourseTracks() {
+        return courseTracks;
+    }
 
-
-//    public int getId() { return id; }
-
-//    public String setId(int id) { this.id = id; }
-
-    // constructor
-    public HistoryModel(int Id, String courseTest, String courseTracks)
-    {
+    public HistoryModel(int Id, String courseTest, String courseTracks) {
         this.courseTracks = courseTracks;
         this.courseTest = courseTest;
         this.Id = Id;

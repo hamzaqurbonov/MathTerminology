@@ -17,7 +17,7 @@ public class MainFragmentModel {
         return Id;
     }
 
-    public MainFragmentModel( Integer id, String word, String translate) {
+    public MainFragmentModel(Integer id, String word, String translate) {
         this.word = word;
         this.translate = translate;
         Id = id;

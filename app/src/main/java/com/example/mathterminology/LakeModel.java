@@ -9,16 +9,15 @@ public class LakeModel {
         return courseTest;
     }
 
-
-    public String getCourseTracks() { return courseTracks; }
-
+    public String getCourseTracks() {
+        return courseTracks;
+    }
 
     public Integer getId() {
         return Id;
     }
 
-    public LakeModel(int Id, String courseTest, String courseTracks)
-    {
+    public LakeModel(int Id, String courseTest, String courseTracks) {
         this.courseTracks = courseTracks;
         this.courseTest = courseTest;
         this.Id = Id;

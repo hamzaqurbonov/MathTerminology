@@ -17,7 +17,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder> {
     private ArrayList<LakeModel> modalArrayList;
     private Context context;
 
-    DbLike dbLike ;
+    DbLike dbLike;
 
     public LikeAdapter(ArrayList<LakeModel> modalArrayList, Context context) {
         this.modalArrayList = modalArrayList;
@@ -34,7 +34,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        LakeModel lakeModel  = modalArrayList.get(position);
+        LakeModel lakeModel = modalArrayList.get(position);
         holder.Word.setText(lakeModel.getCourseTracks());
         holder.Traslate.setText(lakeModel.getCourseTest());
 
@@ -63,7 +63,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView Traslate, Word ;
+        private TextView Traslate, Word;
         ImageView deleteSelect;
 
         public ViewHolder(@NonNull View itemView) {

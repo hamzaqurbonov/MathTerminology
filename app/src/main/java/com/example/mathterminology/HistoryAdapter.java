@@ -25,70 +25,68 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>  {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private Context context;
     HistoryFragment historyFragment;
-    DbHistory dbHistory ;
-private ArrayList<HistoryModel> мodalArrayList;
+    DbHistory dbHistory;
+    private ArrayList<HistoryModel> мodalArrayList;
 
 
-public HistoryAdapter(ArrayList<HistoryModel> мodalArrayList, Context context) {
+    public HistoryAdapter(ArrayList<HistoryModel> мodalArrayList, Context context) {
         this.мodalArrayList = мodalArrayList;
         this.context = context;
         dbHistory = new DbHistory(context);
-        }
+    }
 
-@NonNull
-@Override
-public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_item, parent, false);
         return new ViewHolder(view);
-        }
+    }
 
-@Override
-public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    HistoryModel modal = мodalArrayList.get(position);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        HistoryModel modal = мodalArrayList.get(position);
         holder.courseTracksTV.setText(modal.getCourseTracks());
         holder.courseIdTest.setText(modal.getCourseTest());
-//        holder.idTebel.setText(Integer.toString(modal.getId()));
 
 
-    holder.deleteSelect.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            dbHistory.deleteSelect(Integer.toString(modal.getId()));
+        holder.deleteSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHistory.deleteSelect(Integer.toString(modal.getId()));
 
-            Toast.makeText(v.getContext(), "Text deleted!", Toast.LENGTH_SHORT).show();
-            Refresh(dbHistory.readCourses());
-        }
+                Toast.makeText(v.getContext(), "Text deleted!", Toast.LENGTH_SHORT).show();
+                Refresh(dbHistory.readCourses());
+            }
 
-    });
-}
-
-void Refresh(ArrayList<HistoryModel> events) {
-    мodalArrayList.clear();
-    мodalArrayList.addAll(events);
-    notifyDataSetChanged();
-}
-
-@Override
-public int getItemCount() {
-        return мodalArrayList.size();
-        }
-
-public class ViewHolder extends RecyclerView.ViewHolder {
-    private TextView  courseTracksTV, courseIdTest, idTebel;
-    ImageView deleteSelect;
-
-
-    public ViewHolder(@NonNull View itemView) {
-        super(itemView);
-//        idTebel = itemView.findViewById(R.id.id_tebel);
-        courseTracksTV = itemView.findViewById(R.id.idTVCourseTracks);
-        courseIdTest = itemView.findViewById(R.id.idTest);
-        deleteSelect = itemView.findViewById(R.id.delete_select);
+        });
     }
-}
+
+    void Refresh(ArrayList<HistoryModel> events) {
+        мodalArrayList.clear();
+        мodalArrayList.addAll(events);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return мodalArrayList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView courseTracksTV, courseIdTest;
+        ImageView deleteSelect;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            courseTracksTV = itemView.findViewById(R.id.idTVCourseTracks);
+            courseIdTest = itemView.findViewById(R.id.idTest);
+            deleteSelect = itemView.findViewById(R.id.delete_select);
+        }
+    }
 
 }

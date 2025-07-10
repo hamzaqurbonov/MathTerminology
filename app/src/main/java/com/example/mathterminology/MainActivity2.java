@@ -30,10 +30,7 @@ public class MainActivity2 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
 
-
         dbLike = new DbLike(MainActivity2.this);
-
-
 
         wordId = findViewById(R.id.keyTextId);
         translateId = findViewById(R.id.TextId);
@@ -47,9 +44,6 @@ public class MainActivity2 extends AppCompatActivity {
         wordId.setText(word);
         translateId.setText(translate);
 
-
-
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,13 +51,10 @@ public class MainActivity2 extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_TEXT,  "Lug'at so'zi: " + word + "\n" + "Tarjimasi: " + translate);
                 intent.setType("text/plain");
-//                    if(intent.resolveActivity(getPackageManager()) !=null){
                 startActivity(intent);
-//                    }
+
             }
         });
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -74,15 +65,12 @@ public class MainActivity2 extends AppCompatActivity {
 
     public void back() {
             Intent intent = new Intent(MainActivity2.this, MainActivity.class);
-
             startActivity(intent);
-//            finish();
         }
 
 
     public void buttonLike(View view) {
         confirmDialog();
-//        Toast.makeText(MainActivity2.this,  "Matin saqlandi!", Toast.LENGTH_SHORT).show();
     }
 
     public void confirmDialog(){
@@ -94,12 +82,6 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dbLike.addNewCourse(word, translate);
         Toast.makeText(MainActivity2.this,  "Matin saqlandi!", Toast.LENGTH_SHORT).show();
-//                DBHandler myDB = new DBHandler(ViewCourses.this);
-//                dbHistory.deleteAllData();
-                //Refresh Activity
-//                Intent intent = new Intent(getContext(), MainActivity.class);
-//                startActivity(intent);
-//                finish();
             }
         });
         builder.setNegativeButton("Shart emas", new DialogInterface.OnClickListener() {

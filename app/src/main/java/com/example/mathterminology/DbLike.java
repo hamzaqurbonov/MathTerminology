@@ -30,6 +30,7 @@ public class DbLike extends SQLiteOpenHelper {
                 + TEST_COL1 + " TEXT)";
         db.execSQL(query);
     }
+
     public void addNewCourse(String courseTest, String courseTracks) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -53,10 +54,6 @@ public class DbLike extends SQLiteOpenHelper {
                 String courseTest = cursorCourses.getString(2);
                 courseModalArrayList.add(new LakeModel(Id, courseTracks, courseTest));
 
-//                courseModalArrayList.add(new LakeModel(
-//                        cursorCourses.getString(1),
-//                        cursorCourses.getString(2)
-//                ));
             } while (cursorCourses.moveToNext());
         }
         cursorCourses.close();
@@ -78,7 +75,7 @@ public class DbLike extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void deleteAllData(){
+    void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
     }

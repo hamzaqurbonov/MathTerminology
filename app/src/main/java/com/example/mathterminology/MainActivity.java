@@ -27,45 +27,28 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String FIRST_TIME_KEY = "firstTime";
-     @Override
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-         boolean firstTime = settings.getBoolean(FIRST_TIME_KEY, true);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean firstTime = settings.getBoolean(FIRST_TIME_KEY, true);
 
 
-         if (firstTime) {
-             // Агар биринчи марта очилган бўлса, интро ёки маълумот экранини кўрсатиш
-             Intent intent = new Intent(this, IntroActivity.class);
-             startActivity(intent);
-             finish();
-         } else {
-             // Агар аввал очилган бўлса, тўғридан-тўғри асосий экранга ўтиш
-             setContentView(R.layout.activity_main);
-             BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
-             bottomNav.setOnNavigationItemSelectedListener(navListener);
-             getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
-         }
-
-
-
-        // Dastlab fragmentni 5 soniyaga ko'rsatish
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
-//                bottomNav.setOnNavigationItemSelectedListener(navListener);
-////                button.setVisibility(View.GONE);
-//                // 5 soniyadan keyin asosiy fragmentni ko'rsatish
-//                getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
-//            }
-//        }, 12000 ); // 5000 millisekund = 5 soniya
-//
+        if (firstTime) {
+            Intent intent = new Intent(this, IntroActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            setContentView(R.layout.activity_main);
+            BottomNavigationView bottomNav = findViewById(R.id.botton_navigation);
+            bottomNav.setOnNavigationItemSelectedListener(navListener);
+            getSupportFragmentManager().beginTransaction().replace(R.id.body_container, new MainFragment()).commit();
+        }
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
-
         Fragment selectedFragment = null;
         int itemId = item.getItemId();
         if (itemId == R.id.nav_main) {
@@ -91,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     };
-
-
-
 
 
 }

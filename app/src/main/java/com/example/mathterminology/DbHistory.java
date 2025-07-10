@@ -29,6 +29,7 @@ public class DbHistory extends SQLiteOpenHelper {
                 + TEST_COL1 + " TEXT)";
         db.execSQL(query);
     }
+
     public void addNewCourse(String courseTest, String courseTracks) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -52,10 +53,6 @@ public class DbHistory extends SQLiteOpenHelper {
                 int Id = Integer.parseInt(cursorCourses.getString(0));
                 String courseTracks = cursorCourses.getString(1);
                 String courseTest = cursorCourses.getString(2);
-//                courseModalArrayList.add(new HistoryModel(
-//                        cursorCourses.getString(1),
-//                        cursorCourses.getString(2)
-//                ));
 
                 courseModalArrayList.add(new HistoryModel(Id, courseTracks, courseTest));
             } while (cursorCourses.moveToNext());
@@ -71,7 +68,7 @@ public class DbHistory extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public  void deleteAllData(){
+    public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
     }

@@ -39,10 +39,10 @@ public class LikeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_like, container, false);
 
-        recyWiewLike = view. findViewById(R.id.recyLike);
-        swipeRefreshLayout = view. findViewById(R.id.swipeRefreshLayout);
+        recyWiewLike = view.findViewById(R.id.recyLike);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
-        toolbar = view.findViewById( R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
 
@@ -62,7 +62,7 @@ public class LikeFragment extends Fragment {
         return view;
     }
 
-    private void swipeRefresh(){
+    private void swipeRefresh() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,8 +84,6 @@ public class LikeFragment extends Fragment {
         recyWiewLike.setAdapter(likeAdapter);
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -95,38 +93,30 @@ public class LikeFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_delete,menu);
-
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_delete, menu);
-//        return super.onCreateOptionsMenu(menu);
+        inflater.inflate(R.menu.menu_delete, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.delete_all){
+        if (item.getItemId() == R.id.delete_all) {
             confirmDialog();
         }
         return super.onOptionsItemSelected(item);
 
     }
 
-    public void confirmDialog(){
+    public void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Delete text!");
         builder.setMessage("Will you delete all words?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-//                DBHandler myDB = new DBHandler(ViewCourses.this);
                 dbLike.deleteAllData();
-                Toast.makeText(getContext(),  "All words deleted!", Toast.LENGTH_SHORT).show();
-                //Refresh Activity
-//                Intent intent = new Intent(getContext(), MainActivity.class);
-//                startActivity(intent);
+                Toast.makeText(getContext(), "All words deleted!", Toast.LENGTH_SHORT).show();
                 RearrangeItems();
-//                finish();
+
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
